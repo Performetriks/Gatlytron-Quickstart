@@ -24,7 +24,7 @@
 		
 		<gatling.version>3.13.1</gatling.version>
 		<gatling-maven-plugin.version>4.11.0</gatling-maven-plugin.version>
-		
+
 		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 		<maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
@@ -186,10 +186,20 @@
 						<configuration>
 							<executable>java</executable>
 							<arguments>
+								
 								<argument>-javaagent:".\target\gatlytron-1.2.0.jar"</argument>
+								<argument>--add-opens=java.base/java.lang=ALL-UNNAMED</argument>
+								
 								<argument>-classpath</argument>
 					            <classpath />
 					            <argument>io.gatling.app.Gatling</argument>
+					            
+					            <argument>-Dgatling.conf.file</argument>
+					            <argument>${gatling.conf.file}</argument>
+					            
+					            <argument>--results-folder</argument>
+					            <argument>${project.build.directory}/gatling-results</argument>
+					            
 								<argument>-s</argument>
 								<argument>${gatling.simulationClass}</argument>
 							</arguments>
