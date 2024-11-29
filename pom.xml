@@ -1,0 +1,274 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- ================= PROJECT INFORMATION ================== -->
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.performetriks</groupId>
+	<artifactId>gatlytron-quickstart</artifactId>
+	<version>1.2.0</version>
+
+	<packaging>jar</packaging>
+	
+	<name>Gatlytron</name>
+	<description>Gatlytron is a little framework that assists you in creatname>Gatlyting tests and provides some additional features like reporting.</description>
+	<url>https://github.com/Performetriks/Gatlytron</url>
+
+	<!-- ================= PROPERTIES ================== -->
+	<properties>
+		<maven.compiler.release>11</maven.compiler.release>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<gatlytron.version>1.2.0</gatlytron.version>
+		
+		<gatling.version>3.13.1</gatling.version>
+		<gatling-maven-plugin.version>4.11.0</gatling-maven-plugin.version>
+		
+		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+		<maven-exec.version>1.2.1</maven-exec.version>
+		
+		<final-jar-name>${project.artifactId}-${project.version}.jar</final-jar-name>
+
+		<skipTests>true</skipTests>
+		<skipJavadoc>false</skipJavadoc>
+		<skipSigning>false</skipSigning>
+
+	</properties>
+
+	<!-- ================= DEVELOPERS ================== -->
+	<developers>
+		<developer>
+			<name>Reto Scheiwiller</name>
+			<email>reto.scheiwiller5@bluewin.ch</email>
+			<organization>Performetriks</organization>
+			<organizationUrl>http://www.performetriks.com</organizationUrl>
+		</developer>
+	</developers>
+	
+	<!-- ================= LICENSES ================== -->
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://github.com/xresch/CoreFramework/blob/master/LICENSE</url>
+		</license>
+	</licenses>
+
+	<!-- ================= SCM ================== -->
+	<scm>
+		<connection>scm:git:git://github.com/Performetriks/Gatlytron.git</connection>
+		<developerConnection>scm:git:ssh://github.com/Performetriks/Gatlytron.git</developerConnection>
+		<url>https://github.com/Performetriks/Gatlytron/tree/master</url>
+	</scm>
+	
+	<!-- ================= DEPENDENCIES ================== -->
+	<dependencies>
+
+		<dependency>
+			<groupId>com.performetriks</groupId>
+			<artifactId>gatlytron</artifactId>
+			<version>${gatlytron.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/io.gatling.highcharts/gatling-charts-highcharts -->
+		<dependency>
+			<groupId>io.gatling.highcharts</groupId>
+			<artifactId>gatling-charts-highcharts</artifactId>
+			<version>${gatling.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.7.4</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.2.224</version> 
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+		<!--dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-log4j12</artifactId>
+		    <version>2.0.16</version>
+		</dependency-->
+		
+	</dependencies>
+
+	<!-- ================= BUILD ================== -->
+	<build>
+		<plugins>
+ 
+	 		<!-- ================= Dependency ================== -->
+		    <!-- this tells maven to copy the gatlytron.jar into your target/ directory -->
+		    <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-dependency-plugin</artifactId>
+		      <executions>
+		        <execution>
+		          <id>copy</id>
+		          <phase>process-resources</phase>
+		          <goals>
+		            <goal>copy</goal>
+		          </goals>
+		          <configuration>
+		            <artifactItems>
+		              <artifactItem>
+		                <groupId>com.performetriks</groupId>
+		                <artifactId>gatlytron</artifactId>
+		                <version>${gatlytron.version}</version>
+		                <outputDirectory>${project.build.directory}</outputDirectory>
+		              </artifactItem>
+		            </artifactItems>
+		          </configuration>
+		        </execution>
+		      </executions>
+		    </plugin>
+		    
+		    <!-- ================= SHADE ================== -->
+		    <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-shade-plugin</artifactId>
+              <version>3.1.1</version>
+              <configuration>
+                <filters>
+                  <!-- https://stackoverflow.com/a/6743609 -->
+                  <filter>
+                    <artifact>*:*</artifact>
+                    <excludes>
+                      <exclude>META-INF/*.DSA</exclude>
+                      <exclude>META-INF/*.SF</exclude>
+                      <exclude>META-INF/*.RSA</exclude>
+                    </excludes>
+                  </filter>
+                </filters>
+              </configuration>
+              <executions>
+                <execution>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>shade</goal>
+                  </goals>
+                  <configuration>
+                    <transformers>
+                      <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <mainClass>io.gatling.app.Gatling</mainClass>
+                        <manifestEntries>
+		                    <Launcher-Agent-Class>com.performetriks.gatlytron.injection.InjectionAgent</Launcher-Agent-Class>
+                  		</manifestEntries>
+                      </transformer>
+                    </transformers>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+            
+            <!-- ================= EXEC ================== -->
+            <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>${maven-exec.version}</version>
+				<executions>
+					<execution>
+						<id>ExecuteGatlingSimulation</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>integration-test</phase>
+						<configuration>
+							<executable>java</executable>
+							<arguments>
+								<argument>-javaagent:".\target\gatlytron-1.2.0.jar"</argument>
+								<argument>-classpath</argument>
+					            <classpath />
+					            <argument>io.gatling.app.Gatling</argument>
+								<argument>-s</argument>
+								<argument>${gatling.simulationClass}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+    
+			<!-- ================= COMPILER ================== -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+			</plugin>
+			
+			<!-- ================= RECOURCES ================== -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven-resources-plugin.version}</version>
+			</plugin>
+			
+			<!-- ================= JAR ================== -->
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				
+
+				<!--configuration>
+		          <archive>
+		            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+		          </archive>
+		        </configuration-->
+			</plugin>
+			
+			<!-- ================= GATLING ================== -->
+			<plugin>
+				<groupId>io.gatling</groupId>
+				<artifactId>gatling-maven-plugin</artifactId>
+				<version>${gatling-maven-plugin.version}</version>
+				<configuration>
+				</configuration>
+			</plugin>
+			
+			<!-- ================= SOURCES ================== -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- ================= JAVADOC ================== -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.5.0</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<skip>${skipJavadoc}</skip>
+					<additionalparam>-Xdoclint:none</additionalparam>
+					<additionalOptions>-Xdoclint:none</additionalOptions>
+					<additionalJOption>-Xdoclint:none</additionalJOption>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>
