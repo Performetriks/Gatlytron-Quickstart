@@ -1,13 +1,14 @@
 package com.performetriks.gatlytron.test.scenario;
  
-import com.performetriks.gatlytron.base.GatlytronScenario;
-import com.performetriks.gatlytron.test.settings.TestGlobals;
+import static io.gatling.javaapi.core.CoreDsl.exec;
+import static io.gatling.javaapi.core.CoreDsl.group;
+import static io.gatling.javaapi.http.HttpDsl.http;
 
 import java.util.HashMap;
 import java.util.Map;
- 
-import static io.gatling.javaapi.core.CoreDsl.*;
-import static io.gatling.javaapi.http.HttpDsl.http;
+
+import com.performetriks.gatlytron.base.GatlytronScenario;
+import com.performetriks.gatlytron.test.settings.TestGlobals;
  
 public class SampleScenario extends GatlytronScenario {
   
@@ -25,13 +26,15 @@ public class SampleScenario extends GatlytronScenario {
             .feederBuilder(TestGlobals.getDataFeeder())
             .scenarioSteps(
             	group("MyTest").on(
-	                exec( 
-	                http(SCENARIO_NAME+".fetchInfo")
-	                        .get(URL_API)
-	                        //.body(ElFileBody("postbody.json")) //.asJson()
-	                        //.headers(getHeader())
-	                        //.check(bodyString().saveAs("responseBody"))
-	                )
+            		group("Sub.group").on(
+		                exec( 
+		                http(SCENARIO_NAME+".fetchInfo")
+		                        .get(URL_API)
+		                        //.body(ElFileBody("postbody.json")) //.asJson()
+		                        //.headers(getHeader())
+		                        //.check(bodyString().saveAs("responseBody"))
+		                )
+	            	)
             	)
         );
  

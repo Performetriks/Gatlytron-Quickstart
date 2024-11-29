@@ -1,13 +1,10 @@
 package com.performetriks.gatlytron.test.scenario;
  
+import static io.gatling.javaapi.core.CoreDsl.exec;
+import static io.gatling.javaapi.http.HttpDsl.http;
+
 import com.performetriks.gatlytron.base.GatlytronScenario;
 import com.performetriks.gatlytron.test.settings.TestGlobals;
-
-import java.util.HashMap;
-import java.util.Map;
- 
-import static io.gatling.javaapi.core.CoreDsl.*;
-import static io.gatling.javaapi.http.HttpDsl.http;
  
 public class SampleScenarioTwo extends GatlytronScenario {
   
