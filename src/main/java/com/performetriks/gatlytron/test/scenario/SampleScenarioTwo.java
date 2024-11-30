@@ -21,7 +21,8 @@ public class SampleScenarioTwo extends GatlytronScenario {
             .feederBuilder(TestGlobals.getDataFeeder())
             .scenarioSteps(
                 exec(
-                	http("openHomepage").get(URL)
+                	  http("Open Homepage").get(URL)
+                	, http("Load Dashboard").get(URL)
                 )
         );
  

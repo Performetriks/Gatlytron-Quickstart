@@ -7,20 +7,20 @@
 
 	<groupId>com.performetriks</groupId>
 	<artifactId>gatlytron-quickstart</artifactId>
-	<version>1.2.0</version>
+	<version>2.0.0</version>
 
 	<packaging>jar</packaging>
 	
-	<name>Gatlytron</name>
-	<description>Gatlytron is a little framework that assists you in creatname>Gatlyting tests and provides some additional features like reporting.</description>
-	<url>https://github.com/Performetriks/Gatlytron</url>
+	<name>Gatlytron-Quickstart</name>
+	<description>This project is a basic setup that demonstrates how to use Gatlytron.</description>
+	<url>https://github.com/Performetriks/Gatlytron-Quickstart</url>
 
 	<!-- ================= PROPERTIES ================== -->
 	<properties>
 		<maven.compiler.release>11</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
-		<gatlytron.version>1.2.0</gatlytron.version>
+		<gatlytron.version>2.0.0</gatlytron.version>
 		
 		<gatling.version>3.13.1</gatling.version>
 		<gatling-maven-plugin.version>4.11.0</gatling-maven-plugin.version>
@@ -187,7 +187,7 @@
 							<executable>java</executable>
 							<arguments>
 								
-								<argument>-javaagent:".\target\gatlytron-1.2.0.jar"</argument>
+								<argument>-javaagent:".\target\gatlytron-${gatlytron.version}.jar"</argument>
 								<argument>--add-opens=java.base/java.lang=ALL-UNNAMED</argument>
 								
 								<argument>-classpath</argument>

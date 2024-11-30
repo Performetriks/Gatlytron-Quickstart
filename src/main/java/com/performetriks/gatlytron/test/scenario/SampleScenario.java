@@ -25,7 +25,7 @@ public class SampleScenario extends GatlytronScenario {
         	//.debug(TestGlobals.DEBUG) // default is obtained from Gatlytron.isDebug()
             .feederBuilder(TestGlobals.getDataFeeder())
             .scenarioSteps(
-            	group("MyTest").on(
+            	group("My Test").on(
             		group("Sub.group").on(
 		                exec( 
 		                http(SCENARIO_NAME+".fetchInfo")
