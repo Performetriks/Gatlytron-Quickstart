@@ -222,29 +222,22 @@
 			</plugin>
 			
 			<!-- ================= JAR ================== -->
-			<plugin>
+			<!-- plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin.version}</version>
-				
-
-				<!--configuration>
-		          <archive>
-		            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-		          </archive>
-		        </configuration-->
-			</plugin>
+			</plugin -->
 			
 			<!-- ================= GATLING ================== -->
-			<plugin>
+			<!--plugin>
 				<groupId>io.gatling</groupId>
 				<artifactId>gatling-maven-plugin</artifactId>
 				<version>${gatling-maven-plugin.version}</version>
 				<configuration>
 				</configuration>
-			</plugin>
+			</plugin -->
 			
 			<!-- ================= SOURCES ================== -->
-			<plugin>
+			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>3.3.0</version>
@@ -256,10 +249,10 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin-->
 
 			<!-- ================= JAVADOC ================== -->
-			<plugin>
+			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.5.0</version>
@@ -277,7 +270,7 @@
 					<additionalOptions>-Xdoclint:none</additionalOptions>
 					<additionalJOption>-Xdoclint:none</additionalJOption>
 				</configuration>
-			</plugin>
+			</plugin-->
 
 		</plugins>
 	</build>

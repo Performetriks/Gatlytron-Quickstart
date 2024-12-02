@@ -5,6 +5,9 @@ import static io.gatling.javaapi.core.CoreDsl.DenyList;
 import static io.gatling.javaapi.core.CoreDsl.csv;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.performetriks.gatlytron.base.Gatlytron;
 import com.performetriks.gatlytron.database.DBInterface;
 import com.performetriks.gatlytron.database.GatlytronDBInterface;
@@ -19,12 +22,16 @@ import io.gatling.javaapi.http.HttpProtocolBuilder;
 
 public class TestGlobals {
 
+	private static final Logger logger = LoggerFactory.getLogger(TestGlobals.class);
+	
 	public static final String URL_BASE = "http://localhost:8888/";
 	
-	public static String REPORTING_TABLE_NAME = "gatlytron";
+	public static final String REPORTING_TABLE_NAME = "gatlytron";
+	
+	public static final String DIR_RESULTS = "./target";
+	
 	
 	public static FeederBuilder.Batchable<String> dataFeeder = csv("testdata.csv").circular();
-
 	public static FeederBuilder.Batchable<String> getDataFeeder() { return dataFeeder; }
 
 	/****************************************************************************
@@ -34,10 +41,7 @@ public class TestGlobals {
 		
 		// You can add system properties if you don't want to to use gatling.conf
     	// System.setProperty("gatling.graphite.host", "localhost");
-    	// System.setProperty("gatling.graphite.port", "2003");
-		// System.setProperty("gatling.graphite.writePeriod", "15");
 		
-
 		//------------------------------
     	// Gatlytron Configuration
 		Gatlytron.setDebug(false);
@@ -45,13 +49,14 @@ public class TestGlobals {
 		Gatlytron.setLogLevel(Level.DEBUG, "com.performetriks.gatlytron");
 		
 		Gatlytron.setRawDataToSysout(true);
+		Gatlytron.setRawDataLogPath( DIR_RESULTS + "/gatlytron-raw.log" );
 		//Gatlytron.setKeepEmptyRecords(false);
 		
     	
     	//------------------------------
     	// File Reporter
-    	Gatlytron.addReporter(new GatlytronReporterJson("./target/gatlytron.json", true));
-    	Gatlytron.addReporter(new GatlytronReporterCSV("./target/gatlytron.csv", ";"));
+    	Gatlytron.addReporter(new GatlytronReporterJson( DIR_RESULTS + "/gatlytron.json", true) );
+    	Gatlytron.addReporter(new GatlytronReporterCSV( DIR_RESULTS + "/gatlytron.csv", ";") );
     	
     	//------------------------------
     	// Sysout Reporter
@@ -104,7 +109,11 @@ public class TestGlobals {
 	 * 
 	 ****************************************************************************/
 	public static void commonTermination() {
-		//Gatlytron.terminate();
+		try {
+		Gatlytron.terminate();
+		}catch(Throwable e){
+			logger.warn("Exception occured during termination: "+e.getMessage(), e);
+		}
 	}
 	
 	/****************************************************************************
