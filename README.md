@@ -1,10 +1,10 @@
 
-# Gatlytron
+# Gatlytron Quickstart
 
 Gatlytron is a little framework that assists you in creating Gatling tests and provides some additional features like reporting.
 
 # Creating and Running Tests
-Example code that uses gatling can be found in this repository under `src/test/java/` in the package `com.performetriks.gatlytron.test`.
+Example code that uses gatling can be found in this repository under `src/main/java/` in the package `com.performetriks.gatlytron.test`.
 
 To create a Scenario, create a class that extends `GatlytronScenario.java`:
 
@@ -60,8 +60,7 @@ public class SimulationExample extends Simulation {
 If you define multiple simulations in your project, to run a specific simulation define the parameter "-Dgatling.simulationClass":
 
 ```
-mvn compile gatling:test -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug
-```
+mvn clean install verify -Dgatling.conf.file=gatling.conf -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug```
 
 ## Logging
 Gatlytron provides some methods to set log levels for logback in code. This helps keeping all the config in one place instead of having it distributed in code and config files.
@@ -105,7 +104,7 @@ To enable it, add `Gatlytron.enableGraphiteReceiver(<port>);` and `Gatlytron.add
 
 ```java
 { 	
-	Gatlytron.enableGraphiteReceiver(2003);
+
 	//Gatlytron.setKeepEmptyRecords(false); 
 	Gatlytron.addReporter(new GatlytronReporterJson("./target/gatlytron.json", true));
    Gatlytron.addReporter(new GatlytronReporterCSV("./target/gatlytron.csv", ";"));
@@ -119,26 +118,6 @@ To enable it, add `Gatlytron.enableGraphiteReceiver(<port>);` and `Gatlytron.add
     	
 }
 
-```
-
-Also you have to enable graphite in your gatling.conf by adding "graphite" to the writers and uncomment the graphite section. It is also highly recommended to set the writePeriod to 15 or higher to decrease performance impact of writing data:
-
-```
-gatling {
-  ...
-  data {
-    writers = [console, file, graphite]     
-    graphite {
-      host = "localhost"                    
-      port = 2003                           
-      protocol = "tcp"                      
-      rootPathPrefix = "gatling"           
-      bufferSize = 8192                     
-      writePeriod = 15                       
-    }
-  }
-  ...
-}
 ```
 
 ## Reporting to Databases
@@ -179,7 +158,6 @@ Now you can add the Reporter for the database. The reporter will create the tabl
 
 ```java
 { 	
-	Gatlytron.enableGraphiteReceiver(2003);
 	Gatlytron.addReporter(
     			new GatlytronReporterDatabasePostGres(
 	    			"localhost"
@@ -241,7 +219,7 @@ Gatlytron provides templates for EMP dashboards.
 If you want to use EMP to show your Gatling simulation data, here is how:
 
 1. Download the latest release of EMP: https://github.com/xresch/EngineeredMonitoringPlatform/releases
-2. Setup Totorial for EMP: https://www.youtube.com/watch?v=0Ug1daCedfs
+2. Setup Tutorial for EMP: https://www.youtube.com/watch?v=0Ug1daCedfs
 
 **EMP:** 
 For showing data sent to EMP, just import the template dashboard: https://github.com/Performetriks/Gatlytron/tree/main/docs/templates
@@ -256,3 +234,10 @@ For showing data sent to EMP, just import the template dashboard: https://github
   	- Change "ID" of 3 parameters:
   		- **database_id:** Select the context setting from the dropdown.
   		- **'simulation' and 'request':** In the queries remove existing "environment={...}" and use Ctrl+Space for autocomplete and inserting the new one which you have created.
+  		
+# Running with Gatling versions lower than v3.12.0
+There where some major changes in gatling 3.12 which had to be addressed within Gatlytron. 
+If you need to run test with older Gatling version, use Gatlytron v1.2.0 and look at the documentation here:
+[Gatlytron v1.2.0](https://github.com/Performetriks/Gatlytron/tree/v1.2.0)
+
+
