@@ -73,7 +73,7 @@ Gatlytron.setLogLevel(Level.INFO, "com.performetriks.gatlytron");
 ```
 
 # Reporting
-Gatlytron comes with an built-in carbon(graphite) receiver, which is used to get the real time data and send it to a data store or otherwise process it through GatlytronReporter(feel free to extend this one yourself).
+Gatlytron comes with an built-in data receiver, which is used to get the real time data and send it to a data store or otherwise process it through classes implementing the GatlytronReporter interface(feel free to extend this one yourself).
 
 To increase performance, the reporting feature will take the carbon metrics and aggregate them into records with multiple metrics. The fields available in the reported data are as follows:
 
@@ -124,6 +124,17 @@ To add reporters, use  `Gatlytron.addReporter(new GatlytronReporter*());` to you
     	
 }
 
+```
+
+## Reporting Interval
+The reporting interval is defined by the writePeriod property in the `gatling.conf` file.
+It is recommended to not set this lower than 15 seconds for performance reasons.
+```
+gatling { 
+  data { 
+    console {                     
+      writePeriod = 15                       # Write interval, in seconds
+    }
 ```
 
 ## Reporting to Databases

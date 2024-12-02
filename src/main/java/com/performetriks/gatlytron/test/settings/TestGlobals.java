@@ -5,6 +5,8 @@ import static io.gatling.javaapi.core.CoreDsl.DenyList;
 import static io.gatling.javaapi.core.CoreDsl.csv;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
+import java.util.Map.Entry;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,10 +40,7 @@ public class TestGlobals {
 	 * 
 	 ****************************************************************************/
 	public static void commonInitialization() {
-		
-		// You can add system properties if you don't want to to use gatling.conf
-    	// System.setProperty("gatling.graphite.host", "localhost");
-		
+
 		//------------------------------
     	// Gatlytron Configuration
 		Gatlytron.setDebug(false);
