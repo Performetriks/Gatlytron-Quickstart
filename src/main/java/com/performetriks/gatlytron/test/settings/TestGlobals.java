@@ -43,9 +43,10 @@ public class TestGlobals {
 		Gatlytron.setDebug(false);
 		Gatlytron.setLogLevelRoot(Level.INFO);
 		Gatlytron.setLogLevel(Level.DEBUG, "com.performetriks.gatlytron");
+		
+		Gatlytron.setRawDataToSysout(true);
 		//Gatlytron.setKeepEmptyRecords(false);
 		
-    	//Gatlytron.enableGraphiteReceiver(2003);
     	
     	//------------------------------
     	// File Reporter

@@ -60,7 +60,8 @@ public class SimulationExample extends Simulation {
 If you define multiple simulations in your project, to run a specific simulation define the parameter "-Dgatling.simulationClass":
 
 ```
-mvn clean install verify -Dgatling.conf.file=gatling.conf -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug```
+mvn clean install verify -Dgatling.conf.file=gatling.conf -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug
+```
 
 ## Logging
 Gatlytron provides some methods to set log levels for logback in code. This helps keeping all the config in one place instead of having it distributed in code and config files.
@@ -98,14 +99,19 @@ Here is a JSON example of three records. the first two are user statistic record
 ```
 
 
-## Enable Graphite Receiver and Reporting
+## Configuring Gatlytron and Reporting
 
-To enable it, add `Gatlytron.enableGraphiteReceiver(<port>);` and `Gatlytron.addReporter(new GatlytronReporter*());` some to your simulation, for example:
+There are various settings you can access through the static methods in the class `Gatlytron`. You can find examples in the class:   `com.performetriks.gatlytron.test.settings.TestGlobals.java` 
+
+To add reporters, use  `Gatlytron.addReporter(new GatlytronReporter*());` to your simulation, for example:
 
 ```java
 { 	
 
-	//Gatlytron.setKeepEmptyRecords(false); 
+	//------------------------------
+	// Gatlytron Configuration
+	Gatlytron.setRawDataToSysout(true);
+		 
 	Gatlytron.addReporter(new GatlytronReporterJson("./target/gatlytron.json", true));
    Gatlytron.addReporter(new GatlytronReporterCSV("./target/gatlytron.csv", ";"));
    Gatlytron.addReporter(new GatlytronReporterSysoutJson());
