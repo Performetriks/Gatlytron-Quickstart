@@ -5,8 +5,6 @@ import static io.gatling.javaapi.core.CoreDsl.DenyList;
 import static io.gatling.javaapi.core.CoreDsl.csv;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
-import java.util.Map.Entry;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +15,7 @@ import com.performetriks.gatlytron.reporting.GatlytronReporterCSV;
 import com.performetriks.gatlytron.reporting.GatlytronReporterDatabaseJDBC;
 import com.performetriks.gatlytron.reporting.GatlytronReporterDatabasePostGres;
 import com.performetriks.gatlytron.reporting.GatlytronReporterJson;
+import com.performetriks.gatlytron.reporting.GatlytronReporterSysoutCSV;
 
 import ch.qos.logback.classic.Level;
 import io.gatling.javaapi.core.FeederBuilder;
@@ -28,10 +27,10 @@ public class TestGlobals {
 	
 	public static final String URL_BASE = "http://localhost:8888/";
 	
-	public static final String REPORTING_TABLE_NAME = "gatlytron";
+	public static final String DB_TABLE_PREFIX = "gatlytron";
+	public static final int REPORT_INTERVAL = 5;
 	
 	public static final String DIR_RESULTS = "./target";
-	
 	
 	public static FeederBuilder.Batchable<String> dataFeeder = csv("testdata.csv").circular();
 	public static FeederBuilder.Batchable<String> getDataFeeder() { return dataFeeder; }
@@ -47,11 +46,11 @@ public class TestGlobals {
 		Gatlytron.setLogLevelRoot(Level.INFO);
 		Gatlytron.setLogLevel(Level.DEBUG, "com.performetriks.gatlytron");
 		
-		Gatlytron.setRawDataToSysout(true);
+		Gatlytron.setRawDataToSysout(false);
 		Gatlytron.setRawDataLogPath( DIR_RESULTS + "/gatlytron-raw.log" );
 		//Gatlytron.setKeepEmptyRecords(false);
 		
-    	
+
     	//------------------------------
     	// File Reporter
     	Gatlytron.addReporter(new GatlytronReporterJson( DIR_RESULTS + "/gatlytron.json", true) );
@@ -60,7 +59,7 @@ public class TestGlobals {
     	//------------------------------
     	// Sysout Reporter
     	//Gatlytron.addReporter(new GatlytronReporterSysoutJson());
-    	//Gatlytron.addReporter(new GatlytronReporterSysoutCSV(";"));
+    	Gatlytron.addReporter(new GatlytronReporterSysoutCSV(";"));
     	
     	//------------------------------
     	// EMP Reporter
@@ -78,7 +77,7 @@ public class TestGlobals {
 	    			 "localhost"
 	    			, 5432
 	    			, "postgres"
-	    			, REPORTING_TABLE_NAME
+	    			, DB_TABLE_PREFIX
 	    			, "postgres"
 	    			, "postgres"
     			)
@@ -89,7 +88,7 @@ public class TestGlobals {
     	Gatlytron.addReporter(
     			new GatlytronReporterDatabaseJDBC("org.h2.Driver"
     					, "jdbc:h2:tcp://localhost:8889/./datastore/h2database;MODE=MYSQL;IGNORECASE=TRUE"
-    					, REPORTING_TABLE_NAME
+    					, DB_TABLE_PREFIX
     					, "sa"
     					, "sa") {
 					
@@ -100,7 +99,9 @@ public class TestGlobals {
 				}
     		);
     	
-    	
+    	//------------------------------
+    	// Start Gatlytron
+    	Gatlytron.start(REPORT_INTERVAL);
 
 	}
 	
