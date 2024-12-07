@@ -2,6 +2,7 @@ package com.performetriks.gatlytron.test.simulation;
  
 import java.time.Duration;
 
+import com.performetriks.gatlytron.base.Gatlytron;
 import com.performetriks.gatlytron.test.scenario.SampleScenario;
 import com.performetriks.gatlytron.test.scenario.SampleScenarioTwo;
 import com.performetriks.gatlytron.test.settings.TestGlobals;
@@ -14,6 +15,7 @@ public class SimulationLoadAverage extends Simulation {
     private static final Duration TEST_DURATION = Duration.ofMinutes(15);
  
     {
+    	Gatlytron.setSimulationName(this.getClass().getSimpleName());
     	TestGlobals.commonInitialization();
     	
         //======================================================================

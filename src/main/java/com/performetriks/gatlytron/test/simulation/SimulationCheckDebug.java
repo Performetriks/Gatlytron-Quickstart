@@ -16,6 +16,7 @@ public class SimulationCheckDebug extends Simulation {
 
     {
     	
+    	Gatlytron.setSimulationName(this.getClass().getSimpleName());
     	TestGlobals.commonInitialization();
     	Gatlytron.setDebug(true);
     	
@@ -27,7 +28,7 @@ public class SimulationCheckDebug extends Simulation {
         //======================================================================
        
     	setUp(
-                new SampleScenario().buildStandardLoad(10, 600, 0, 2)
+                new SampleScenario().buildStandardLoad(10, 6000, 0, 2)
                 , new SampleScenarioTwo().buildStandardLoad(10, 600, 0, 2)
            ).protocols(TestGlobals.getProtocol())
             .maxDuration(TEST_DURATION)
