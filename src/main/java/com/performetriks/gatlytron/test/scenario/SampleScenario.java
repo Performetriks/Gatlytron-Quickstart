@@ -28,7 +28,7 @@ public class SampleScenario extends GatlytronScenario {
             	group("My Test").on(
             		group("Sub.group").on(
 		                exec( 
-		                http(SCENARIO_NAME+".fetchInfo")
+		                http("fetchInfo")
 		                        .get(URL_API)
 		                        //.body(ElFileBody("postbody.json")) //.asJson()
 		                        //.headers(getHeader())
