@@ -28,12 +28,13 @@ public class SampleScenario extends GatlytronScenario {
             	group("My Test").on(
             		group("Sub.group").on(
 		                exec( 
-		                http("fetchInfo")
-		                        .get(URL_API)
-		                        //.body(ElFileBody("postbody.json")) //.asJson()
-		                        //.headers(getHeader())
-		                        //.check(bodyString().saveAs("responseBody"))
-		                )
+			                http("fetchInfo")
+			                        .get(URL_API)
+			                        //.body(ElFileBody("postbody.json")) //.asJson()
+			                        //.headers(getHeader())
+			                        //.check(bodyString().saveAs("responseBody"))
+			                )
+		                , http("testError").get("https://does.not.exist/fails")
 	            	)
             	)
         );

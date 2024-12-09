@@ -28,6 +28,9 @@ public class TestGlobals {
 	public static final String URL_BASE = "http://localhost:8888/";
 	
 	public static final String DB_TABLE_PREFIX = "gatlytron";
+	
+	// You can set the report interval to the same as the Console writePeriod of gatling.conf like this:
+	//public static final int REPORT_INTERVAL = Gatlytron.getConsoleWritePeriodSeconds();
 	public static final int REPORT_INTERVAL = 5;
 	
 	public static final String DIR_RESULTS = "./target";
@@ -62,15 +65,6 @@ public class TestGlobals {
     	Gatlytron.addReporter(new GatlytronReporterSysoutCSV(";"));
     	
     	//------------------------------
-    	// EMP Reporter
-    	/*Gatlytron.addReporter(
-    			new GatlytronReporterEMP(
-    					"http://localhost:8888"
-    					,"gatlytron-test-token-MSGIUzrLyUsOypYOkekVgmlfjMpLbRCA"
-    				)
-    			);*/
-    	
-    	//------------------------------
     	// PostGres DB Reporter
     	Gatlytron.addReporter(
     			new GatlytronReporterDatabasePostGres(
@@ -84,20 +78,29 @@ public class TestGlobals {
     		);
     	
     	//------------------------------
+    	// EMP Reporter
+    	/*Gatlytron.addReporter(
+    			new GatlytronReporterEMP(
+    					"http://localhost:8888"
+    					,"gatlytron-test-token-MSGIUzrLyUsOypYOkekVgmlfjMpLbRCA"
+    				)
+    			);*/
+    	
+    	//------------------------------
     	// JDBC DB Reporter
-    	Gatlytron.addReporter(
-    			new GatlytronReporterDatabaseJDBC("org.h2.Driver"
-    					, "jdbc:h2:tcp://localhost:8889/./datastore/h2database;MODE=MYSQL;IGNORECASE=TRUE"
-    					, DB_TABLE_PREFIX
-    					, "sa"
-    					, "sa") {
-					
-					@Override
-					public GatlytronDBInterface getGatlytronDB(DBInterface dbInterface, String tableNamePrefix) {
-						return new GatlytronDBInterface(dbInterface, tableNamePrefix);
-					}
-				}
-    		);
+//    	Gatlytron.addReporter(
+//    			new GatlytronReporterDatabaseJDBC("org.h2.Driver"
+//    					, "jdbc:h2:tcp://localhost:8889/./datastore/h2database;MODE=MYSQL;IGNORECASE=TRUE"
+//    					, DB_TABLE_PREFIX
+//    					, "sa"
+//    					, "sa") {
+//					
+//					@Override
+//					public GatlytronDBInterface getGatlytronDB(DBInterface dbInterface, String tableNamePrefix) {
+//						return new GatlytronDBInterface(dbInterface, tableNamePrefix);
+//					}
+//				}
+//    		);
     	
     	//------------------------------
     	// Start Gatlytron

@@ -56,11 +56,13 @@ public class SimulationExample extends Simulation {
 
 
 
-## Running Specific Simulations
+## Executing a Simulation
+(**Note:** Please be aware that due to technical limitations, Gatlytron can only run one Simulation at the time.)
+
 If you define multiple simulations in your project, to run a specific simulation define the parameter "-Dgatling.simulationClass":
 
 ```
-mvn clean install verify -Dgatling.conf.file=gatling.conf -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug
+mvn clean verify -Dgatling.conf.file=gatling.conf -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug
 ```
 
 ## Logging
