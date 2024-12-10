@@ -4,8 +4,8 @@
 Gatlytron is a little framework that assists you in creating Gatling tests and provides some additional features like reporting.
 
 # Known Limitations
-Before you try Gatlytron and find it doesn't work for your case, here some known limitations:
-* Gatlytron is made for Gatling version v3.12.0 and higher. For Using Gatlytron with older Gatling version, see the respective section at the end of this manual.
+Before you try Gatlytron and find out it doesn't work for your case, here some known limitations:
+* Gatlytron is made for Gatling version v3.12.0 and higher. For using Gatlytron with older Gatling versions, see the respective section at the end of this manual.
 * Gatlytron can only run one simulation class at the time. It cannot start multiple simulations in parallel.
 * The simulation name is not auto detected and has to be set manually using `Gatlytron.setSimulationName(this.getClass().getSimpleName());`. This name will be used for Gatlytron reports and can be customized. It will not be used for the Gatling standard reports(they will still use the class name).
 
