@@ -14,6 +14,7 @@ import com.performetriks.gatlytron.database.GatlytronDBInterface;
 import com.performetriks.gatlytron.reporting.GatlytronReporterCSV;
 import com.performetriks.gatlytron.reporting.GatlytronReporterDatabaseJDBC;
 import com.performetriks.gatlytron.reporting.GatlytronReporterDatabasePostGres;
+import com.performetriks.gatlytron.reporting.GatlytronReporterEMP;
 import com.performetriks.gatlytron.reporting.GatlytronReporterJson;
 import com.performetriks.gatlytron.reporting.GatlytronReporterSysoutCSV;
 
@@ -31,7 +32,7 @@ public class TestGlobals {
 	
 	// You can set the report interval to the same as the Console writePeriod of gatling.conf like this:
 	//public static final int REPORT_INTERVAL = Gatlytron.getConsoleWritePeriodSeconds();
-	public static final int REPORT_INTERVAL = 5;
+	public static final int REPORT_INTERVAL = 15;
 	
 	public static final String DIR_RESULTS = "./target";
 	
@@ -50,9 +51,7 @@ public class TestGlobals {
 		Gatlytron.setLogLevel(Level.DEBUG, "com.performetriks.gatlytron");
 		
 		Gatlytron.setRawDataToSysout(false);
-		Gatlytron.setRawDataLogPath( DIR_RESULTS + "/gatlytron-raw.log" );
-		//Gatlytron.setKeepEmptyRecords(false);
-		
+		Gatlytron.setRawDataLogPath( DIR_RESULTS + "/gatlytron-raw.log" );		
 
     	//------------------------------
     	// File Reporter
@@ -79,28 +78,28 @@ public class TestGlobals {
     	
     	//------------------------------
     	// EMP Reporter
-    	/*Gatlytron.addReporter(
+    	Gatlytron.addReporter(
     			new GatlytronReporterEMP(
     					"http://localhost:8888"
     					,"gatlytron-test-token-MSGIUzrLyUsOypYOkekVgmlfjMpLbRCA"
     				)
-    			);*/
+    			);
     	
     	//------------------------------
     	// JDBC DB Reporter
-//    	Gatlytron.addReporter(
-//    			new GatlytronReporterDatabaseJDBC("org.h2.Driver"
-//    					, "jdbc:h2:tcp://localhost:8889/./datastore/h2database;MODE=MYSQL;IGNORECASE=TRUE"
-//    					, DB_TABLE_PREFIX
-//    					, "sa"
-//    					, "sa") {
-//					
-//					@Override
-//					public GatlytronDBInterface getGatlytronDB(DBInterface dbInterface, String tableNamePrefix) {
-//						return new GatlytronDBInterface(dbInterface, tableNamePrefix);
-//					}
-//				}
-//    		);
+    	Gatlytron.addReporter(
+    			new GatlytronReporterDatabaseJDBC("org.h2.Driver"
+    					, "jdbc:h2:tcp://localhost:8889/./datastore/h2database;MODE=MYSQL;IGNORECASE=TRUE"
+    					, DB_TABLE_PREFIX
+    					, "sa"
+    					, "sa") {
+					
+					@Override
+					public GatlytronDBInterface getGatlytronDB(DBInterface dbInterface, String tableNamePrefix) {
+						return new GatlytronDBInterface(dbInterface, tableNamePrefix);
+					}
+				}
+    		);
     	
     	//------------------------------
     	// Start Gatlytron

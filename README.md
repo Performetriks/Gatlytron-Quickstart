@@ -3,6 +3,13 @@
 
 Gatlytron is a little framework that assists you in creating Gatling tests and provides some additional features like reporting.
 
+# Known Limitations
+Before you try Gatlytron and find it doesn't work for your case, here some known limitations:
+* Gatlytron is made for Gatling version v3.12.0 and higher. For Using Gatlytron with older Gatling version, see the respective section at the end of this manual.
+* Gatlytron can only run one simulation class at the time. It cannot start multiple simulations in parallel.
+* The simulation name is not auto detected and has to be set manually using `Gatlytron.setSimulationName(this.getClass().getSimpleName());`. This name will be used for Gatlytron reports and can be customized. It will not be used for the Gatling standard reports(they will still use the class name).
+
+
 # Creating and Running Tests
 Example code that uses gatling can be found in this repository under `src/main/java/` in the package `com.performetriks.gatlytron.test`.
 
@@ -19,7 +26,7 @@ public class SampleScenario extends GatlytronScenario {
             .feederBuilder(TestGlobals.getDataFeeder())
             .scenarioSteps(
                 exec(
-					http("callURL").get("")
+						http("callURL").get("")
                 )
         );
     }
@@ -54,11 +61,7 @@ public class SimulationExample extends Simulation {
 ```
 
 
-
-
 ## Executing a Simulation
-(**Note:** Please be aware that due to technical limitations, Gatlytron can only run one Simulation at the time.)
-
 If you define multiple simulations in your project, to run a specific simulation define the parameter "-Dgatling.simulationClass":
 
 ```
@@ -66,71 +69,71 @@ mvn clean verify -Dgatling.conf.file=gatling.conf -Dgatling.simulationClass=com.
 ```
 
 ## Logging
-Gatlytron provides some methods to set log levels for logback in code. This helps keeping all the config in one place instead of having it distributed in code and config files.
+Gatlytron provides some methods to set log levels for logback in code and other logging options. This helps keeping all the config in one place instead of having it distributed in code and config files.
+Keep in mind that extensive logging can affect the execution of your tests. Only enable what you really need.
 
 ``` java
 Gatlytron.setDebug(false); // common debug flag, can be accessed with Gatlytron.isDebug()
 Gatlytron.setLogLevelRoot(Level.INFO);
 Gatlytron.setLogLevel(Level.INFO, "com.performetriks.gatlytron");
+
+Gatlytron.setRawDataToSysout(false);
+Gatlytron.setRawDataLogPath( DIR_RESULTS + "/gatlytron-raw.log" );
 ```
 
 # Reporting
 Gatlytron comes with an built-in data receiver, which is used to get the real time data and send it to a data store or otherwise process it through classes implementing the GatlytronReporter interface(feel free to extend this one yourself).
 
-To increase performance, the reporting feature will take the carbon metrics and aggregate them into records with multiple metrics. The fields available in the reported data are as follows:
+The fields available in the reported data are as follows:
 
-* **time:** Time in epoch seconds.
-* **simulation:** Name of the simulation in lower case.
-* **request:** The name of the request, or null if the record relates to user statistics.
-* **user_group:** The name of the user group, or null if the record relates to a request.
-* **users_active, users_waiting, users_done:** Fields that contain user count values.
+* **time:** Time in epoch milliseconds.
+* **type:** The type of the record: REQ = Request / USR = User Counts.
+* **simulation:** Name of the simulation.
+* **scenario:** Name of the scenario.
+* **metric:** The name of the metric.
+* **code:** The response code of the request, will be 000 if unknown, for example in case of connection errors.
 
 * **ok_count, ok_min, ok_max, ok_mean, ok_stdev, ok_p50, ok_p75, ok_p95, ok_p99:** Fields that countain the metrics for request in status "ok".
 * **ko_count, ko_min, ko_max, ko_mean, ko_stdev, ko_p50, ko_p75, ko_p95, ko_p99:** Fields that countain the metrics for request in status "ko".
-* **all_count, all_min, all_max, all_mean, all_stdev, all_p50, all_p75, all_p95, all_p99:** Fields that countain the metrics for all requests (ok and ko combined).
 
 Here is a JSON example of three records. the first two are user statistic records, the next two are request records:
 
 ``` json
-{"time":"1725964648","simulation":"simulationcheckdebug","request":null,"user_group":"myScenario","users_active":2,"users_waiting":0,"users_done":0,"ok_count":0,"ok_min":0,"ok_max":0,"ok_mean":0,"ok_stdev":0,"ok_p50":0,"ok_p75":0,"ok_p95":0,"ok_p99":0,"ko_count":0,"ko_min":0,"ko_max":0,"ko_mean":0,"ko_stdev":0,"ko_p50":0,"ko_p75":0,"ko_p95":0,"ko_p99":0,"all_count":0,"all_min":0,"all_max":0,"all_mean":0,"all_stdev":0,"all_p50":0,"all_p75":0,"all_p95":0,"all_p99":0}
-{"time":"1725964648","simulation":"simulationcheckdebug","request":null,"user_group":"allUsers","users_active":2,"users_waiting":0,"users_done":0,"ok_count":0,"ok_min":0,"ok_max":0,"ok_mean":0,"ok_stdev":0,"ok_p50":0,"ok_p75":0,"ok_p95":0,"ok_p99":0,"ko_count":0,"ko_min":0,"ko_max":0,"ko_mean":0,"ko_stdev":0,"ko_p50":0,"ko_p75":0,"ko_p95":0,"ko_p99":0,"all_count":0,"all_min":0,"all_max":0,"all_mean":0,"all_stdev":0,"all_p50":0,"all_p75":0,"all_p95":0,"all_p99":0}
-{"time":"1725964648","simulation":"simulationcheckdebug","request":"myRequest","user_group":null,"users_active":0,"users_waiting":0,"users_done":0,"ok_count":4,"ok_min":338,"ok_max":373,"ok_mean":357,"ok_stdev":14,"ok_p50":347,"ok_p75":369,"ok_p95":373,"ok_p99":373,"ko_count":0,"ko_min":0,"ko_max":0,"ko_mean":0,"ko_stdev":0,"ko_p50":0,"ko_p75":0,"ko_p95":0,"ko_p99":0,"all_count":4,"all_min":338,"all_max":373,"all_mean":357,"all_stdev":14,"all_p50":347,"all_p75":369,"all_p95":373,"all_p99":373}
-{"time":"1725965555","simulation":"simulationcheckdebug","request":"myFailingRequest","user_group":null,"users_active":0,"users_waiting":0,"users_done":0,"ok_count":0,"ok_min":0,"ok_max":0,"ok_mean":0,"ok_stdev":0,"ok_p50":0,"ok_p75":0,"ok_p95":0,"ok_p99":0,"ko_count":4,"ko_min":119,"ko_max":179,"ko_mean":150,"ko_stdev":26,"ko_p50":130,"ko_p75":173,"ko_p95":179,"ko_p99":179,"all_count":4,"all_min":119,"all_max":179,"all_mean":150,"all_stdev":26,"all_p50":130,"all_p75":173,"all_p95":179,"all_p99":179}
-
+{"time":1733821445032,"type":"USR","simulation":"SimulationCheckDebug","scenario":"Website","metric":"users.total_started","code":"000","ok_count":1,"ok_min":2,"ok_max":2,"ok_mean":2,"ok_stdev":0,"ok_p50":2,"ok_p75":2,"ok_p95":2,"ok_p99":2,"ko_count":null,"ko_min":null,"ko_max":null,"ko_mean":null,"ko_stdev":null,"ko_p50":null,"ko_p75":null,"ko_p95":null,"ko_p99":null},
+{"time":1733821445032,"type":"USR","simulation":"SimulationCheckDebug","scenario":"Website","metric":"users.total_stopped","code":"000","ok_count":1,"ok_min":0,"ok_max":0,"ok_mean":0,"ok_stdev":0,"ok_p50":0,"ok_p75":0,"ok_p95":0,"ok_p99":0,"ko_count":null,"ko_min":null,"ko_max":null,"ko_mean":null,"ko_stdev":null,"ko_p50":null,"ko_p75":null,"ko_p95":null,"ko_p99":null},
+{"time":1733821450400,"type":"REQ","simulation":"SimulationCheckDebug","scenario":"API.callInterface","metric":"fetchInfo Redirect 1","code":"302","ok_count":11,"ok_min":0,"ok_max":1,"ok_mean":1,"ok_stdev":0,"ok_p50":1,"ok_p75":1,"ok_p95":1,"ok_p99":1,"ko_count":null,"ko_min":null,"ko_max":null,"ko_mean":null,"ko_stdev":null,"ko_p50":null,"ko_p75":null,"ko_p95":null,"ko_p99":null},
+{"time":1733821450400,"type":"REQ","simulation":"SimulationCheckDebug","scenario":"API.callInterface","metric":"fetchInfo Redirect 2","code":"200","ok_count":11,"ok_min":12,"ok_max":16,"ok_mean":14,"ok_stdev":1.41,"ok_p50":13,"ok_p75":13,"ok_p95":16,"ok_p99":16,"ko_count":null,"ko_min":null,"ko_max":null,"ko_mean":null,"ko_stdev":null,"ko_p50":null,"ko_p75":null,"ko_p95":null,"ko_p99":null},
 
 ```
 
+## Reporting Configuration
 
-## Configuring Gatlytron and Reporting
+For the reporting to be activated, you need to call `Gatlytron.start(REPORT_INTERVAL):`.
+This call is already included in the example in the Method `TestGlobals.commonInitialization();`
 
 There are various settings you can access through the static methods in the class `Gatlytron`. You can find examples in the class:   `com.performetriks.gatlytron.test.settings.TestGlobals.java` 
 
-To add reporters, use  `Gatlytron.addReporter(new GatlytronReporter*());` to your simulation, for example:
+To add reporters, use  `Gatlytron.addReporter(new GatlytronReporter*());` to your simulation. 
+It is recommended to only add the reporters you really need to not cause unnecessary performance overhead.
+Here some examples:
 
 ```java
-{ 	
-
 	//------------------------------
 	// Gatlytron Configuration
-	Gatlytron.setRawDataToSysout(true);
-		 
 	Gatlytron.addReporter(new GatlytronReporterJson("./target/gatlytron.json", true));
    Gatlytron.addReporter(new GatlytronReporterCSV("./target/gatlytron.csv", ";"));
    Gatlytron.addReporter(new GatlytronReporterSysoutJson());
-    	
-	setUp(
-			new SampleScenario().buildStandardLoad(10, 600, 0, 2)
-	   ).protocols(TestSettings.getProtocol())
-		.maxDuration(TEST_DURATION)
-	   ;
-    	
-}
-
 ```
 
 ## Reporting Interval
-The reporting interval is defined by the writePeriod property in the `gatling.conf` file.
-It is recommended to not set this lower than 15 seconds for performance reasons.
+The reporting interval is defined in seconds by the method `Gatlytron.start(intervalSeconds);`.
+If you like, you can use the the following to set the reporting interval to the same as the console writePeriod:
+```
+		public static final int REPORT_INTERVAL = Gatlytron.getConsoleWritePeriodSeconds();
+    	Gatlytron.start(REPORT_INTERVAL);
+```
+
+If above is used, the following property from the `gatling.conf` is used.
 ```
 gatling { 
   data { 
@@ -205,7 +208,7 @@ Following an example for an H2 database:
 
 ``` xml
 <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
-<!dependency>
+<dependency>
 	<groupId>com.h2database</groupId>
 	<artifactId>h2</artifactId>
 	<version>2.2.224</version> 
@@ -241,18 +244,19 @@ If you want to use EMP to show your Gatling simulation data, here is how:
 2. Setup Tutorial for EMP: https://www.youtube.com/watch?v=0Ug1daCedfs
 
 **EMP:** 
-For showing data sent to EMP, just import the template dashboard: https://github.com/Performetriks/Gatlytron/tree/main/docs/templates
-	
+For showing data sent to EMP, import the template dashboard: https://github.com/Performetriks/Gatlytron/tree/main/docs/templates
+Open and edit the the parameter widget that lets you select the compare time. In the setting "Affected on Update", you have to remove and reselect the "Compare Statistics" widget.
+
 **Postgres:**
 1. In EMP, go to "Admin >> Context Settings >> Add >> Postgres Environment" and fill in the connection details.
 2. Import Gatlytron Dashboard template for Postgres: https://github.com/Performetriks/Gatlytron/tree/main/docs/templates
-3. On the Postgres Dashboard:
-  	- Open the Dashboard
-  	- Click the "Edit" button in the top left
-  	- Click on the button "Params"
+3. Open the Dashboard
+4. Click the "Edit" button in the top left
+5. Click on the button "Params"
   	- Change "ID" of 3 parameters:
   		- **database_id:** Select the context setting from the dropdown.
   		- **'simulation' and 'request':** In the queries remove existing "environment={...}" and use Ctrl+Space for autocomplete and inserting the new one which you have created.
+6. On the dashboard, edit the the parameter widget that lets you select the compare time. In the setting "Affected on Update", you have to remove and reselect the "Compare Statistics" widget. 
   		
 # Running with Gatling versions lower than v3.12.0
 There where some major changes in gatling 3.12 which had to be addressed within Gatlytron. 
