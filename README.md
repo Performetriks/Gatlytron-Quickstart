@@ -2,6 +2,8 @@
 # Gatlytron Quickstart
 
 Gatlytron is a little framework that assists you in creating Gatling tests and provides some additional features like reporting.
+This project is a starting project that gives you a working base setup you can build your tests upon.
+Clone it to your disk and open it in your IDE to get started.
 
 # Known Limitations
 Before you try Gatlytron and find out it doesn't work for your case, here some known limitations:
