@@ -67,7 +67,11 @@ public class SimulationExample extends Simulation {
 If you define multiple simulations in your project, to run a specific simulation define the parameter "-Dgatling.simulationClass":
 
 ```
+# maven
 mvn clean verify -Dgatling.conf.file=gatling.conf -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug
+
+#gradle
+./gradlew clean verify -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug
 ```
 
 ## Logging

@@ -1,12 +1,24 @@
 //========================================================
 //
 //========================================================
+buildscript {
+    ext {
+    	versionGatling = '3.13.1'
+    	versionGatlytron = '2.0.0'
+    }
+}
+//========================================================
+//
+//========================================================
 plugins {
     id 'java-library'
     id 'distribution' // needed to copy the gatlytron java agent
     // The following line allows to load io.gatling.gradle plugin and directly apply it
-    id 'io.gatling.gradle' version '3.13.1'
+    id 'io.gatling.gradle' version "${versionGatling}"
 }
+
+
+
 
 //========================================================
 //
@@ -30,10 +42,10 @@ repositories {
 //========================================================
 dependencies{
 	// https://mvnrepository.com/artifact/io.gatling.highcharts/gatling-charts-highcharts
-	implementation group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '3.13.1'
+	implementation group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: "${versionGatling}"
 
 	// https://mvnrepository.com/artifact/com.performetriks/gatlytron
-	implementation group: 'com.performetriks', name: 'gatlytron', version: '2.0.0'
+	implementation group: 'com.performetriks', name: 'gatlytron', version: "${versionGatlytron}"
 
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.4'
@@ -63,7 +75,7 @@ distributions {
 jar {
     manifest {
         attributes(
-            'Launcher-Agent-Class'   : 'com.performetriks.gatlytron.injection.InjectionAgent'
+            'Launcher-Agent-Class': 'com.performetriks.gatlytron.injection.InjectionAgent'
         )
     }
 }
@@ -98,7 +110,7 @@ tasks.register("verify", JavaExec) {
     // JVM Arguments
     List<String> jvmArguments = new ArrayList<String>();
     jvmArguments.add("--add-opens=java.base/java.lang=ALL-UNNAMED");
-    jvmArguments.add("-javaagent:./build/javaagent/gatlytron-2.0.0.jar");
+    jvmArguments.add("-javaagent:./build/javaagent/gatlytron-${versionGatlytron}.jar");
 
     jvmArgs = jvmArguments
 
