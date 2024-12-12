@@ -2,3 +2,5 @@
 /.mvn/wrapper/*.jar
 maven-wrapper.properties
 /dependency-reduced-pom.xml
+/build
+/.gradle

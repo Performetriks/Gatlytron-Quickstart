@@ -1,0 +1,120 @@
+//========================================================
+//
+//========================================================
+plugins {
+    id 'java-library'
+    id 'distribution' // needed to copy the gatlytron java agent
+    // The following line allows to load io.gatling.gradle plugin and directly apply it
+    id 'io.gatling.gradle' version '3.13.1'
+}
+
+//========================================================
+//
+//========================================================
+gatling {
+  enterprise {
+    // Enterprise Cloud (https://cloud.gatling.io/) configuration reference: https://docs.gatling.io/reference/integrations/build-tools/gradle-plugin/
+  }
+}
+
+//========================================================
+//
+//========================================================
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+//========================================================
+// 
+//========================================================
+dependencies{
+	// https://mvnrepository.com/artifact/io.gatling.highcharts/gatling-charts-highcharts
+	implementation group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '3.13.1'
+
+	// https://mvnrepository.com/artifact/com.performetriks/gatlytron
+	implementation group: 'com.performetriks', name: 'gatlytron', version: '2.0.0'
+
+	// https://mvnrepository.com/artifact/org.postgresql/postgresql
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.4'
+	
+	// https://mvnrepository.com/artifact/com.h2database/h2
+	implementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+	
+}
+
+//========================================================
+// 
+//========================================================
+distributions {
+    main {
+        contents {
+        	into('libx'){
+	            from jar // copies your jar
+	            from(configurations.runtimeClasspath) // copies dependency jars
+            }
+        }
+    }
+}
+
+//========================================================
+// 
+//========================================================
+jar {
+    manifest {
+        attributes(
+            'Launcher-Agent-Class'   : 'com.performetriks.gatlytron.injection.InjectionAgent'
+        )
+    }
+}
+
+//========================================================
+//
+//========================================================
+tasks.register("copyDependencies", Copy) {
+    
+    dependsOn('build')
+    
+    from configurations.runtimeClasspath
+    into "build/javaagent"
+    include "gatlytron-*.jar"
+}
+
+
+
+//========================================================
+//
+//========================================================
+tasks.register("verify", JavaExec) {
+    def simulationClass = System.getProperty("gatling.simulationClass")
+    
+    dependsOn('copyDependencies')
+    
+    description = "Execute Tests with Gatlytron"
+    main = 'io.gatling.app.Gatling'
+    classpath = sourceSets.main.runtimeClasspath
+    
+    //--------------------------------
+    // JVM Arguments
+    List<String> jvmArguments = new ArrayList<String>();
+    jvmArguments.add("--add-opens=java.base/java.lang=ALL-UNNAMED");
+    jvmArguments.add("-javaagent:./build/javaagent/gatlytron-2.0.0.jar");
+
+    jvmArgs = jvmArguments
+
+    //--------------------------------
+    // Application Arguments
+       List<String> appArgs = new ArrayList<String>();
+    appArgs.add("--results-folder");
+    appArgs.add("build/gatling-results");
+    appArgs.add("-s");
+    appArgs.add(simulationClass);
+    args = appArgs
+    //args "--results-folder build/gatling-results -s ${simulationClass}"
+}
+
+
+
+
+
+
