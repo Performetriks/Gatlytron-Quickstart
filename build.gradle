@@ -118,7 +118,7 @@ tasks.register("verify", JavaExec) {
     // Application Arguments
        List<String> appArgs = new ArrayList<String>();
     appArgs.add("--results-folder");
-    appArgs.add("build/gatling-results");
+    appArgs.add("target/gatling-results");
     appArgs.add("-s");
     appArgs.add(simulationClass);
     args = appArgs
