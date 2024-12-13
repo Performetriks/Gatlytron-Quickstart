@@ -208,9 +208,9 @@ Now you can add the Reporter for the database. The reporter will create the tabl
 ```
 
 ### Reporting to any JDBC Database
-You can use the class `GatlytronReporterDatabaseJDBC` to connect to any SQL database that is availabie through JDBC.
+You can use the class `GatlytronReporterDatabaseJDBC` to connect to any SQL database that is available through JDBC.
 You need to include the dependency which provides the driver for the database you want to connect to.
-Following an example for an H2 database:
+Following an example for an H2 database, which is also delivered with EMP:
 
 ``` xml
 <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
@@ -240,6 +240,44 @@ Gatlytron.addReporter(
 			}
 		}
 	);
+```
+
+### Reporting to EMP
+Two things you might wanna know about reporting metrics to EMP:
+* The max granularity of data you will have in EMP is 1 minute.
+* EMP will do an age out of the data or housekeeping. EMP will be a good solution if diskspace usage needs to be considered.
+
+To report data directly to EMP, you would need to do the following:
+1. Sign into EMP with an admin account.
+2. Go to "Admin >> Configuration >> EAV: Entity Attribute Value" and:
+	* Set the setting "Statistic Max Granularity" to 1.
+	* Set the age out settings as it fits your needs, typical values for performance testing are:
+		* 1st Age Out: < 15 Minutes : 2160  (this is 90 days in hours)
+		* 2nd Age Out: < 1 Hour: 150
+		* 3rd Age Out: < 6 Hours: 210
+		* 4th Age Out: < 24 Hours: 270
+		* 5th Age Out: < 1 Week: 365
+		* Age Out Interval: 1440
+3. Go to "Tools >> API >> Manage Tokens" and add a new token.
+4. Edit your new token and add the following permissions:
+	* EAVStats.pushStats
+	* EAVStats.pushStatsCSV
+
+Now you should be able to connect to EMP and report metrics with Gatlytron by using your token:
+
+```java
+{ 	
+	//------------------------------
+	// EMP Reporter
+	Gatlytron.addReporter(
+			new GatlytronReporterEMP(
+					"http://localhost:8888"
+					,"{your-EMP-API-token}"
+				)
+			);
+    	
+}
+
 ```
 
 ## Setup EMP Dashboards
