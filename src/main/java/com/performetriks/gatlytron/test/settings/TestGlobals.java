@@ -55,7 +55,7 @@ public class TestGlobals {
 
     	//------------------------------
     	// File Reporter
-    	Gatlytron.addReporter(new GatlytronReporterJson( DIR_RESULTS + "/gatlytron.json", true) );
+    	Gatlytron.addReporter(new GatlytronReporterJson( DIR_RESULTS + "/gatlytron.json", false) );
     	Gatlytron.addReporter(new GatlytronReporterCSV( DIR_RESULTS + "/gatlytron.csv", ";") );
     	
     	//------------------------------
