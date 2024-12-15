@@ -288,12 +288,12 @@ If you want to use EMP to show your Gatling simulation data, here is how:
 2. Setup Tutorial for EMP: https://www.youtube.com/watch?v=0Ug1daCedfs
 
 **EMP:** 
-For showing data sent to EMP, import the template dashboard: https://github.com/Performetriks/Gatlytron/tree/main/docs/templates
+For showing data sent to EMP, import the template dashboards from the folder `./docs/templates`.
 Open and edit the the parameter widget that lets you select the compare time. In the setting "Affected on Update", you have to remove and reselect the "Compare Statistics" widget.
 
 **Postgres:**
 1. In EMP, go to "Admin >> Context Settings >> Add >> Postgres Environment" and fill in the connection details.
-2. Import Gatlytron Dashboard template for Postgres: https://github.com/Performetriks/Gatlytron/tree/main/docs/templates
+2. Import Gatlytron Dashboard template for Postgres from the folder `./docs/templates`.
 3. Open the Dashboard
 4. Click the "Edit" button in the top left
 5. Click on the button "Params"
