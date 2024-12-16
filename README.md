@@ -68,10 +68,10 @@ If you define multiple simulations in your project, to run a specific simulation
 
 ```
 # maven
-mvn clean verify -Dgatling.conf.file=gatling.conf -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug
+mvn clean verify "-Dgatling.conf.file=gatling.conf" "-Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug"
 
 # gradle - by default, results will be written to ./taget directory
-./gradlew clean verify -Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug
+./gradlew clean verify "-Dgatling.simulationClass=com.performetriks.gatlytron.test.simulation.SimulationCheckDebug"
 ```
 
 ## Logging
