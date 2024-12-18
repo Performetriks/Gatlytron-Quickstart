@@ -58,20 +58,6 @@ dependencies{
 //========================================================
 // 
 //========================================================
-distributions {
-    main {
-        contents {
-        	into('libx'){
-	            from jar // copies your jar
-	            from(configurations.runtimeClasspath) // copies dependency jars
-            }
-        }
-    }
-}
-
-//========================================================
-// 
-//========================================================
 jar {
     manifest {
         attributes(
