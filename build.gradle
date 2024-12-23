@@ -53,6 +53,10 @@ dependencies{
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	implementation group: 'com.h2database', name: 'h2', version: '2.2.224'
 	
+	// https://mvnrepository.com/artifact/io.gatling.highcharts/gatling-charts-highcharts
+	// This is needed to execute "./gradlew gatlingRecorder"
+	gatling group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: "${versionGatling}"
+
 }
 
 //========================================================
@@ -85,6 +89,9 @@ tasks.register("copyDependencies", Copy) {
 //========================================================
 tasks.register("verify", JavaExec) {
     def simulationClass = System.getProperty("gatling.simulationClass")
+    
+    // prevent gradle compilation issues
+    if(simulationClass == null){ simulationClass = ""; }
     
     dependsOn('copyDependencies')
     

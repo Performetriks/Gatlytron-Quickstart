@@ -1,0 +1,3 @@
+This folder has to exist for being able to execute:
+./gradlew gatlingRecorder
+
