@@ -1,6 +1,6 @@
 {"success": true,"messages": [],"payload": [
   {
-    "PK_ID": 131,
+    "PK_ID": 129,
     "FK_ID_USER": 1,
     "NAME": "Gatlytron Dashboard (Postgres)",
     "DESCRIPTION": null,
@@ -11,8 +11,8 @@
     "JSON_EDITORS": {},
     "JSON_EDITOR_GROUPS": {},
     "ALLOW_EDIT_SETTINGS": false,
-    "TIME_CREATED": 1734444179592,
-    "LAST_UPDATED": 1734449321815,
+    "TIME_CREATED": 1739434919605,
+    "LAST_UPDATED": 1739462628719,
     "IS_PUBLIC": false,
     "START_FULLSCREEN": false,
     "IS_DELETABLE": true,
@@ -23,8 +23,8 @@
     "username": "admin",
     "widgets": [
       {
-        "PK_ID": 562,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 649,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_parameter",
         "X": 0,
         "Y": 0,
@@ -63,8 +63,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 563,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 650,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 0,
         "Y": 6,
@@ -91,8 +91,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 564,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 651,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 0,
         "Y": 24,
@@ -119,8 +119,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 565,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 652,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 0,
         "Y": 32,
@@ -147,8 +147,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 566,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 653,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 0,
         "Y": 95,
@@ -175,8 +175,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 567,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 654,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 31,
         "Y": 6,
@@ -203,8 +203,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 568,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 655,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 31,
         "Y": 24,
@@ -231,36 +231,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 571,
-        "FK_ID_DASHBOARD": 131,
-        "TYPE": "cfw_widget_queryresults",
-        "X": 9,
-        "Y": 207,
-        "WIDTH": 44,
-        "HEIGHT": 40,
-        "TITLE": "Gantt Chart",
-        "TITLE_LINK": null,
-        "TITLE_INFO": "This Gantt chart shows first and last execution time by requests. Useful to see if things were executed during the whole test. ",
-        "TITLE_FONTSIZE": null,
-        "TITLE_POSITION": "top",
-        "TITLE_ALIGN": "start",
-        "CONTENT_FONTSIZE": null,
-        "FOOTER": null,
-        "BGCOLOR": "#2d004d",
-        "FGCOLOR": "null",
-        "INVISIBLE": false,
-        "PAUSE": false,
-        "MANUAL_LOAD": true,
-        "PARAM_WIDGET_LOAD": false,
-        "JSON_SETTINGS": {
-          "query": "| paramdefaults\r\n\tsimulation\u003d\"n/a\"\r\n\tdatabase_id\u003d-1\r\n\ttableprefix\u003d\u0027gatlytron\u0027\r\n\tchart_settings\u003d{charttype: \"area\"}\r\n| source postgres \r\n\tenvironment\u003dparam(database_id) \r\n\tquery\u003d `\r\n\t\tSELECT \r\n\t\t\t  time\r\n\t\t\t, simulation\r\n\t\t\t, metric\r\n\t\t\t, ok_count\r\n\t\t\t, ko_count\r\n\t\t\t, ok_min\r\n\t\t\t, ok_max\r\n\t\t\t, ok_mean\r\n\t\t\t, ok_stdev\r\n\t\t\t, ok_p50\r\n\t\t\t, ok_p75\r\n\t\t\t, ok_p95\r\n\t\t\t, ok_p99\r\n\t\tFROM ` +param(tableprefix, \u0027gatlytron\u0027) + `_stats\r\n\t\tWHERE time \u003c\u003d `+ latest() +`\r\n\t\t  AND time \u003e\u003d `+ earliest() +`\r\n\t\t  AND simulation LIKE \u0027%`+ param(\"simulation\", \"none\") +`%\u0027\r\n\t\t  AND ok_count \u003e 0\r\n\t\t  AND type \u003d \u0027REQ\u0027\r\n\t`\r\n| stats #reduce data points to timegroup\r\n\tby\u003d[metric] \r\n\t\"FROM\"\t\u003d min(time)\r\n\t\"TO\"\t\u003d max(time)\r\n| chart \r\n\tby\u003d[metric] \r\n\ttype\u003d\u0027gantt\u0027\r\n\tx\u003dFROM # start time in epoch milliseconds\r\n\ty\u003dTO   # end time in epoch milliseconds\r\n\tshowaxes\u003dfalse",
-          "sampledata": false
-        },
-        "JSON_TASK_PARAMETERS": {}
-      },
-      {
-        "PK_ID": 573,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 657,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 0,
         "Y": 171,
@@ -281,14 +253,14 @@
         "MANUAL_LOAD": false,
         "PARAM_WIDGET_LOAD": true,
         "JSON_SETTINGS": {
-          "query": "| paramdefaults\r\n\tsimulation\u003d\"n/a\"\r\n\tdatabase_id\u003d-1\r\n\ttableprefix\u003d\u0027gatlytron\u0027\r\n\tcompare_to \u003d object(\r\n\t\t\t\t\t \u0027earliest\u0027, earliest()\r\n\t\t\t\t\t,\u0027latest\u0027, latest()\r\n\t\t\t\t)\r\n| meta\r\n\t\u0027timerange\u0027 \u003d tojson(param(\u0027compare_to\u0027))\r\n| source postgres \r\n\tenvironment\u003dparam(database_id) \r\n\tquery\u003d `\r\n\t\tSELECT \r\n\t\t\t  time\r\n\t\t\t, simulation\r\n\t\t\t, metric\r\n\t\t\t, ok_count\r\n\t\t\t, ko_count\r\n\t\t\t, ok_min\r\n\t\t\t, ok_max\r\n\t\t\t, ok_mean\r\n\t\t\t, ok_stdev\r\n\t\t\t, ok_p50\r\n\t\t\t, ok_p75\r\n\t\t\t, ok_p95\r\n\t\t\t, ok_p99\r\n\t\tFROM ` +param(tableprefix, \u0027gatlytron\u0027) + `_stats\r\n\t\tWHERE time \u003c\u003d `+ meta(\u0027timerange\u0027).latest +`\r\n\t\t  AND time \u003e\u003d `+ meta(\u0027timerange\u0027).earliest +`\r\n\t\t  AND simulation LIKE \u0027%`+ param(\"simulation\", \"none\") +`%\u0027\r\n\t\t  AND type \u003d \u0027REQ\u0027\r\n\t`\r\n\r\n| stats #reduce data points to timegroup\r\n\tby\u003d[metric] \r\n\t\"ok_count\"\t\u003dsum(\"ok_count\")\r\n\t\"ko_count\"\t\u003dsum(\"ko_count\")\r\n\t\"min\"\t\u003dmin(\"ok_min\")\r\n\t\"mean\"\t\u003davg(\"ok_mean\")\r\n\t\"max\"\t\u003dmax(\"ok_max\")\r\n\t\"stdev\"\t\u003davg(\"ok_stdev\")\r\n\t\"p50\"\t\u003dperc(\"ok_p50\", 50)\r\n\t\"p75\"\t\u003dperc(\"ok_p75\", 75)\r\n\t\"p95\"\t\u003dperc(\"ok_p95\", 95)\r\n\t\"p99\"\t\u003dperc(\"ok_p99\", 99)\r\n;\r\n| meta\r\n\ttimerange \u003d object(\r\n\t\t\t\t   \u0027earliest\u0027, earliest()\r\n\t\t\t\t , \u0027latest\u0027, latest()\r\n\t\t\t\t)\r\n| mimic\r\n;\r\n| resultcompare\r\n\tby\u003d[metric]\r\n\tpercentformat \u003d [[\u0027percent\u0027, $threshold_good$, $threshold_bad$, \"bg\", \"cfw-gray\"], [align, center]]\r\n| formatfield\r\n\trequest\u003d[\r\n\t\t\t  [\u0027css\u0027, \"max-width\", \"20vw\"]\r\n\t\t\t ,[\u0027css\u0027, \"text-wrap\", \"wrap\"]\r\n\t\t\t ,[\u0027css\u0027, \"word-wrap\", \"break-word\"]\r\n\t\t]\r\n\t\t\t\r\n\tfields(metric, \"counts\", \"metrics\")\u003d[\u0027align\u0027, \"right\"]\r\n\t[mean, stdev]\u003d[\u0027decimals\u0027, 1]\r\n| display \r\n\tas\u003dtable\r\n\tdownload\u003dtrue",
+          "query": "| paramdefaults\r\n\tsimulation\u003d\"n/a\"\r\n\tdatabase_id\u003d-1\r\n\ttableprefix\u003d\u0027gatlytron\u0027\r\n\tcompare_to \u003d object(\r\n\t\t\t\t\t \u0027earliest\u0027, earliest()\r\n\t\t\t\t\t,\u0027latest\u0027, latest()\r\n\t\t\t\t)\r\n| meta\r\n\t\u0027timerange\u0027 \u003d tojson(param(\u0027compare_to\u0027))\r\n| source postgres \r\n\tenvironment\u003dparam(database_id) \r\n\tquery\u003d `\r\n\t\tSELECT \r\n\t\t\t  time\r\n\t\t\t, simulation\r\n\t\t\t, groups\r\n\t\t\t, metric\r\n\t\t\t, ok_count\r\n\t\t\t, ko_count\r\n\t\t\t, ok_min\r\n\t\t\t, ok_max\r\n\t\t\t, ok_mean\r\n\t\t\t, ok_stdev\r\n\t\t\t, ok_p50\r\n\t\t\t, ok_p75\r\n\t\t\t, ok_p95\r\n\t\t\t, ok_p99\r\n\t\tFROM ` +param(tableprefix, \u0027gatlytron\u0027) + `_stats\r\n\t\tWHERE time \u003c\u003d `+ meta(\u0027timerange\u0027).latest +`\r\n\t\t  AND time \u003e\u003d `+ meta(\u0027timerange\u0027).earliest +`\r\n\t\t  AND simulation LIKE \u0027%`+ param(\"simulation\", \"none\") +`%\u0027\r\n\t\t  AND type \u003d \u0027REQ\u0027\r\n\t`\r\n| set metric \u003d if( groups !\u003d \"\", groups +\" / \", \"\") + metric\r\n| stats #reduce data points to timegroup\r\n\tby\u003d[metric] \r\n\t\"ok_count\"\t\u003dsum(\"ok_count\")\r\n\t\"ko_count\"\t\u003dsum(\"ko_count\")\r\n\t\"min\"\t\u003dmin(\"ok_min\")\r\n\t\"mean\"\t\u003davg(\"ok_mean\")\r\n\t\"max\"\t\u003dmax(\"ok_max\")\r\n\t\"stdev\"\t\u003davg(\"ok_stdev\")\r\n\t\"p50\"\t\u003dperc(\"ok_p50\", 50)\r\n\t\"p75\"\t\u003dperc(\"ok_p75\", 75)\r\n\t\"p95\"\t\u003dperc(\"ok_p95\", 95)\r\n\t\"p99\"\t\u003dperc(\"ok_p99\", 99)\r\n;\r\n| meta\r\n\ttimerange \u003d object(\r\n\t\t\t\t   \u0027earliest\u0027, earliest()\r\n\t\t\t\t , \u0027latest\u0027, latest()\r\n\t\t\t\t)\r\n| mimic\r\n;\r\n| resultcompare\r\n\tby\u003d[metric]\r\n\tpercentformat \u003d [[\u0027percent\u0027, $threshold_good$, $threshold_bad$, \"bg\", \"cfw-gray\"], [align, center]]\r\n| formatfield\r\n\trequest\u003d[\r\n\t\t\t  [\u0027css\u0027, \"max-width\", \"20vw\"]\r\n\t\t\t ,[\u0027css\u0027, \"text-wrap\", \"wrap\"]\r\n\t\t\t ,[\u0027css\u0027, \"word-wrap\", \"break-word\"]\r\n\t\t]\r\n\t\t\t\r\n\tfields(metric, \"counts\", \"metrics\")\u003d[\u0027align\u0027, \"right\"]\r\n\t[mean, stdev]\u003d[\u0027decimals\u0027, 1]\r\n| display \r\n\tas\u003dtable\r\n\tdownload\u003dtrue",
           "sampledata": false
         },
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 574,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 658,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_parameter",
         "X": 0,
         "Y": 162,
@@ -313,7 +285,8 @@
           "JSON_PARAMETERS": {
             "171": "compare_to",
             "172": "threshold_good",
-            "173": "threshold_bad"
+            "173": "threshold_bad",
+            "214": "boxplot_relative"
           },
           "addtotop": false,
           "showbutton": true,
@@ -321,15 +294,16 @@
           "checkpassword": false,
           "password": null,
           "JSON_AFFECTED_WIDGETS": {
-            "674": "Compared Statistics"
+            "657": "Compared Statistics",
+            "663": "Compared Boxplots"
           },
           "load_previous_values": true
         },
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 575,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 659,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 0,
         "Y": 129,
@@ -356,8 +330,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 576,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 660,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 0,
         "Y": 40,
@@ -384,8 +358,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 577,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 661,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 31,
         "Y": 32,
@@ -412,8 +386,8 @@
         "JSON_TASK_PARAMETERS": {}
       },
       {
-        "PK_ID": 592,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 662,
+        "FK_ID_DASHBOARD": 129,
         "TYPE": "cfw_widget_queryresults",
         "X": 0,
         "Y": 61,
@@ -438,12 +412,40 @@
           "sampledata": false
         },
         "JSON_TASK_PARAMETERS": {}
+      },
+      {
+        "PK_ID": 663,
+        "FK_ID_DASHBOARD": 129,
+        "TYPE": "cfw_widget_queryresults",
+        "X": 0,
+        "Y": 207,
+        "WIDTH": 63,
+        "HEIGHT": 36,
+        "TITLE": "Compared Boxplots",
+        "TITLE_LINK": null,
+        "TITLE_INFO": "MedianDiff colors are set by your threshold settings. Boxplot colors indicate closeness of median(white Line) to the high value(right side of box). The max value used in the box plots is 95th percentile to ignore extreme outliers.",
+        "TITLE_FONTSIZE": null,
+        "TITLE_POSITION": "top",
+        "TITLE_ALIGN": "start",
+        "CONTENT_FONTSIZE": null,
+        "FOOTER": null,
+        "BGCOLOR": "#360656",
+        "FGCOLOR": "null",
+        "INVISIBLE": false,
+        "PAUSE": false,
+        "MANUAL_LOAD": false,
+        "PARAM_WIDGET_LOAD": true,
+        "JSON_SETTINGS": {
+          "query": "| paramdefaults\r\n\tsimulation\u003d\"n/a\"\r\n\tdatabase_id\u003d-1\r\n\ttableprefix\u003d\u0027gatlytron\u0027\r\n\tboxplot_relative \u003d true\r\n\tcompare_to \u003d object(\r\n\t\t\t\t\t \u0027earliest\u0027, earliest()\r\n\t\t\t\t\t,\u0027latest\u0027, latest()\r\n\t\t\t\t)\r\n| meta\r\n\t\u0027timerange\u0027 \u003d tojson(param(\u0027compare_to\u0027))\r\n\t\u0027name\u0027 \u003d \"A\"\r\n| source postgres \r\n\tenvironment\u003dparam(database_id) \r\n\tquery\u003d `\r\n\t\tSELECT \r\n\t\t\t  time\r\n\t\t\t, simulation\r\n\t\t\t, metric\r\n\t\t\t, ok_count\r\n\t\t\t, ko_count\r\n\t\t\t, ok_min\r\n\t\t\t, ok_max\r\n\t\t\t, ok_mean\r\n\t\t\t, ok_stdev\r\n\t\t\t, ok_p25\r\n\t\t\t, ok_p50\r\n\t\t\t, ok_p75\r\n\t\t\t, ok_p95\r\n\t\t\t, ok_p99\r\n\t\tFROM ` +param(tableprefix, \u0027gatlytron\u0027) + `_stats\r\n\t\tWHERE time \u003c\u003d `+ meta(\u0027timerange\u0027).latest +`\r\n\t\t  AND time \u003e\u003d `+ meta(\u0027timerange\u0027).earliest +`\r\n\t\t  AND simulation LIKE \u0027%`+ param(\"simulation\", \"none\") +`%\u0027\r\n\t\t  AND type \u003d \u0027REQ\u0027\r\n\t`\r\n| set metric \u003d if( groups !\u003d \"\", groups +\" / \", \"\") + metric\r\n| stats #reduce data points to timegroup\r\n\tby\u003d[metric] \r\n\t(\"ok_count_\"+m(name))\t\u003dsum(\"ok_count\")\r\n\t(\"ko_count_\"+m(name))\t\u003dsum(\"ko_count\")\r\n\t(\"min_\"+m(name))\t\t\u003dmin(\"ok_min\")\r\n\t(\"mean_\"+m(name))\t\t\u003davg(\"ok_mean\")\r\n\t(\"max_\"+m(name))\t\t\u003dmax(\"ok_max\")\r\n\t(\"stdev_\"+m(name))\t\t\u003davg(\"ok_stdev\")\r\n\t(\"p25_\"+m(name))\t\t\u003dperc(\"ok_p25\", 25)\r\n\t(\"p50_\"+m(name))\t\t\u003dperc(\"ok_p50\", 50)\r\n\t(\"p75_\"+m(name))\t\t\u003dperc(\"ok_p75\", 75)\r\n\t(\"p95_\"+m(name))\t\t\u003dperc(\"ok_p95\", 95)\r\n\t(\"p99_\"+m(name))\t\t\u003dperc(\"ok_p99\", 99)\r\n;\r\n| meta\r\n\t\u0027name\u0027 \u003d \"B\"\r\n\ttimerange \u003d object(\r\n\t\t\t\t   \u0027earliest\u0027, earliest()\r\n\t\t\t\t , \u0027latest\u0027, latest()\r\n\t\t\t\t)\r\n| mimic\r\n;\r\n| resultjoin on\u003dmetric\r\n| sort metric # sort by INDEX\r\n| rename \r\n\tmetric \u003d Metric\r\n\tok_count_A \u003d Count_A\r\n\tok_count_B \u003d Count_B \r\n| formatboxplot\r\n\tfield \t \u003d \"Boxplot_A\"\r\n\trelative \u003d param(boxplot_relative)\r\n\tmin \t \u003d \"min_A\"\r\n\tlow \t \u003d \"p25_A\"\r\n\tmedian \t \u003d \"p50_A\"\r\n\thigh \t \u003d \"p75_A\"\r\n\tmax \t \u003d \"p95_A\"\r\n\twidth \t \u003d \"30vw\"\r\n| set\r\n\tMedianDiff \u003d (\"p50_B\" / \"p50_A\") * 100 - 100 # between the two timeframes\r\n\tCountDiff \u003d (\"Count_B\" / \"Count_A\") * 100 - 100 # between the two timeframes\r\n\tmedianOffsetPerc \u003d (\"p50_B\" - \"p25_B\") / (\"p75_B\" - \"p25_B\") * 100 # in the dashboard timeframe\r\n\t\r\n| formatboxplot\r\n\tfield \t \u003d \"Boxplot_B\"\r\n\trelative \u003d param(boxplot_relative)\r\n\tmin \t \u003d \"min_B\"\r\n\tlow \t \u003d \"p25_B\"\r\n\tmedian \t \u003d \"p50_B\"\r\n\thigh \t \u003d \"p75_B\"\r\n\tmax \t \u003d \"p95_B\"\r\n\twidth \t \u003d \"30vw\"\r\n\tcolor\t \u003d case(\r\n\t\t  ( medianOffsetPerc \u003e 90 ), \"red\"\r\n\t\t, ( medianOffsetPerc \u003e 80 ), \"orange\"\r\n\t\t, ( medianOffsetPerc \u003e 70 ), \"yellow\"\r\n\t\t, ( medianOffsetPerc \u003e 60 ), \"limegreen\"\r\n\t\t, true, \"green\"\r\n\t)\r\n| keep Metric, Count_A, Count_B, CountDiff, Boxplot_A, MedianDiff, Boxplot_B\r\n| formatfield\r\n\t[CountDiff, MedianDiff] \u003d [\u0027percent\u0027, $threshold_good$, $threshold_bad$, \"bg\", \"\"]",
+          "sampledata": false
+        },
+        "JSON_TASK_PARAMETERS": {}
       }
     ],
     "parameters": [
       {
-        "PK_ID": 196,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 184,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Query Select",
         "PARAM_TYPE": "QUERY_EDITOR",
@@ -454,8 +456,8 @@
         "IS_DYNAMIC": true
       },
       {
-        "PK_ID": 197,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 185,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Postgres Environment",
         "PARAM_TYPE": "SELECT",
@@ -466,8 +468,8 @@
         "IS_DYNAMIC": false
       },
       {
-        "PK_ID": 198,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 186,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Text",
         "PARAM_TYPE": "TEXT",
@@ -478,8 +480,8 @@
         "IS_DYNAMIC": false
       },
       {
-        "PK_ID": 199,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 187,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Number",
         "PARAM_TYPE": "NUMBER",
@@ -490,8 +492,8 @@
         "IS_DYNAMIC": false
       },
       {
-        "PK_ID": 200,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 188,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Select",
         "PARAM_TYPE": "VALUE_LABEL",
@@ -502,8 +504,8 @@
         "IS_DYNAMIC": false
       },
       {
-        "PK_ID": 201,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 189,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Chart Types",
         "PARAM_TYPE": "UNMODIFIABLE_TEXT",
@@ -514,8 +516,8 @@
         "IS_DYNAMIC": false
       },
       {
-        "PK_ID": 202,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 190,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Query Select",
         "PARAM_TYPE": "QUERY_EDITOR",
@@ -526,8 +528,8 @@
         "IS_DYNAMIC": true
       },
       {
-        "PK_ID": 203,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 191,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Time Range",
         "PARAM_TYPE": "TIMEFRAMEPICKER",
@@ -538,8 +540,8 @@
         "IS_DYNAMIC": false
       },
       {
-        "PK_ID": 204,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 192,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Number",
         "PARAM_TYPE": "NUMBER",
@@ -550,13 +552,25 @@
         "IS_DYNAMIC": false
       },
       {
-        "PK_ID": 205,
-        "FK_ID_DASHBOARD": 131,
+        "PK_ID": 193,
+        "FK_ID_DASHBOARD": 129,
         "WIDGET_TYPE": null,
         "LABEL": "Number",
         "PARAM_TYPE": "NUMBER",
         "NAME": "threshold_bad",
         "VALUE": "15",
+        "MODE": "MODE_SUBSTITUTE",
+        "IS_MODE_CHANGE_ALLOWED": false,
+        "IS_DYNAMIC": false
+      },
+      {
+        "PK_ID": 214,
+        "FK_ID_DASHBOARD": 129,
+        "WIDGET_TYPE": null,
+        "LABEL": "Boolean",
+        "PARAM_TYPE": "BOOLEAN",
+        "NAME": "boxplot_relative",
+        "VALUE": "TRUE",
         "MODE": "MODE_SUBSTITUTE",
         "IS_MODE_CHANGE_ALLOWED": false,
         "IS_DYNAMIC": false
