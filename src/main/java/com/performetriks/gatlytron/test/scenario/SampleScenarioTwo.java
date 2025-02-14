@@ -9,7 +9,7 @@ import com.performetriks.gatlytron.test.settings.TestGlobals;
 public class SampleScenarioTwo extends GatlytronScenario {
   
     public static final String SCENARIO_NAME = "Website";
-    public static final String URL = TestGlobals.URL_BASE + "";
+    public static final String URL = TestGlobals.ENV.url + "";
   
     /***************************************************************************
      *

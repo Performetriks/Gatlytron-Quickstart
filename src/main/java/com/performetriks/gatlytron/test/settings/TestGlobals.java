@@ -5,6 +5,10 @@ import static io.gatling.javaapi.core.CoreDsl.DenyList;
 import static io.gatling.javaapi.core.CoreDsl.csv;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,24 +30,55 @@ public class TestGlobals {
 
 	private static final Logger logger = LoggerFactory.getLogger(TestGlobals.class);
 	
-	public static final String URL_BASE = "http://localhost:8888/";
+	//================================================================
+	// Define your Environments here
+	//================================================================
+	public enum Environment {
+		
+		  DEV ("http://localhost:8888/")
+		, TEST("http://localhost:7777/")
+		;
+
+		public final String url;
+		
+		Environment(String url) {
+			this.url = url;
+		}
+				
+		// example on how to keep things in one place
+		public String getAPIURL() { return url + "/rest/api"; }
+		public String getXDynatraceHeader() { return url + "GatlytronPerfTest"; }
+		
+	}
 	
+	//================================================================
+	// Set the Environment to run your Test against
+	//================================================================
+	public static final Environment ENV = Environment.DEV;
+	
+	
+	//================================================================
+	// GLOBALS
+	//================================================================
+	public static final String DIR_RESULTS = "./target/";
+
 	public static final String DB_TABLE_PREFIX = "gatlytron";
-	
 	// You can set the report interval to the same as the Console writePeriod of gatling.conf like this:
 	//public static final int REPORT_INTERVAL = Gatlytron.getConsoleWritePeriodSeconds();
 	public static final int REPORT_INTERVAL = 15;
 	
-	public static final String DIR_RESULTS = "./target";
-	
-	public static FeederBuilder.Batchable<String> dataFeeder = csv("testdata.csv").circular();
+	//================================================================
+	// DATA FEEDER
+	//================================================================
+	public static FeederBuilder.Batchable<String> dataFeeder = csv("testdata_"+ENV.name()+".csv").circular();
 	public static FeederBuilder.Batchable<String> getDataFeeder() { return dataFeeder; }
+
 
 	/****************************************************************************
 	 * 
 	 ****************************************************************************/
 	public static void commonInitialization() {
-
+		
 		//------------------------------
     	// Gatlytron Configuration
 		Gatlytron.setDebug(false);
@@ -51,12 +86,12 @@ public class TestGlobals {
 		Gatlytron.setLogLevel(Level.DEBUG, "com.performetriks.gatlytron");
 		
 		Gatlytron.setRawDataToSysout(false);
-		Gatlytron.setRawDataLogPath( DIR_RESULTS + "/gatlytron-raw.log" );		
+		Gatlytron.setRawDataLogPath( DIR_RESULTS + "/gatlytron-raw-"+ENV.name()+".log" );		
 
     	//------------------------------
     	// File Reporter
-    	Gatlytron.addReporter(new GatlytronReporterJson( DIR_RESULTS + "/gatlytron.json", false) );
-    	Gatlytron.addReporter(new GatlytronReporterCSV( DIR_RESULTS + "/gatlytron.csv", ";") );
+    	Gatlytron.addReporter(new GatlytronReporterJson( DIR_RESULTS + "/gatlytron-"+ENV.name()+".json", false) );
+    	Gatlytron.addReporter(new GatlytronReporterCSV( DIR_RESULTS + "/gatlytron-"+ENV.name()+".csv", ";") );
     	
     	//------------------------------
     	// Sysout Reporter
@@ -123,7 +158,7 @@ public class TestGlobals {
 	 ****************************************************************************/
 	public static HttpProtocolBuilder getProtocol() { 
 		HttpProtocolBuilder httpProtocol= http
-				.baseUrl(URL_BASE)
+				.baseUrl(ENV.url)
 				.disableUrlEncoding()
 				.inferHtmlResources(AllowList(), DenyList(
 						  ".*\\.js"

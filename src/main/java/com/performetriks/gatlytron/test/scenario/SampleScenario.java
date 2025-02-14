@@ -13,7 +13,7 @@ import com.performetriks.gatlytron.test.settings.TestGlobals;
 public class SampleScenario extends GatlytronScenario {
   
     public static final String SCENARIO_NAME = "API.callInterface";
-    public static final String URL_API = TestGlobals.URL_BASE + "";
+    public static final String URL_API = TestGlobals.ENV.url + "";
   
     /***************************************************************************
      *
@@ -42,16 +42,17 @@ public class SampleScenario extends GatlytronScenario {
     }
  
     public Map<CharSequence, String> getHeader(){
-        Map<CharSequence, String> headers_space = new HashMap<>();
-        headers_space.put("Accept", "application/json");
-        headers_space.put("Accept-Encoding", "gzip, deflate, br, zstd");
-        headers_space.put("Cache-Control", "no-cache");
-        headers_space.put("Origin", TestGlobals.URL_BASE);
-        headers_space.put("Content-Type", "application/json");
-        //headers_space.put("authorization", "Bearer "+ CustomSettings.myToken);
-        //headers_space.put("x-dynatrace", "customDynatraceLabel");
+        Map<CharSequence, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        headers.put("Accept-Encoding", "gzip, deflate, br, zstd");
+        headers.put("Cache-Control", "no-cache");
+        headers.put("Content-Type", "application/json");
+        headers.put("Origin", TestGlobals.ENV.url );
+        headers.put("x-dynatrace", TestGlobals.ENV.getXDynatraceHeader());
+        
+        //headers_space.put("authorization", "Bearer "+ TestGlobals.token);
  
-        return headers_space;
+        return headers;
     }
  
 }
