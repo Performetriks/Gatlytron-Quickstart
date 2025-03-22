@@ -5,18 +5,11 @@ import static io.gatling.javaapi.core.CoreDsl.DenyList;
 import static io.gatling.javaapi.core.CoreDsl.csv;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.performetriks.gatlytron.base.Gatlytron;
-import com.performetriks.gatlytron.database.DBInterface;
-import com.performetriks.gatlytron.database.GatlytronDBInterface;
 import com.performetriks.gatlytron.reporting.GatlytronReporterCSV;
-import com.performetriks.gatlytron.reporting.GatlytronReporterDatabaseJDBC;
 import com.performetriks.gatlytron.reporting.GatlytronReporterDatabasePostGres;
 import com.performetriks.gatlytron.reporting.GatlytronReporterEMP;
 import com.performetriks.gatlytron.reporting.GatlytronReporterJson;
@@ -47,7 +40,7 @@ public class TestGlobals {
 				
 		// example on how to keep things in one place
 		public String getAPIURL() { return url + "/rest/api"; }
-		public String getXDynatraceHeader() { return url + "GatlytronPerfTest"; }
+		public String getXDynatraceHeader() { return "GatlytronPerfTest"; }
 		
 	}
 	
