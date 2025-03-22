@@ -54,7 +54,7 @@ public class TestGlobals {
 	//================================================================
 	// Set the Environment to run your Test against
 	//================================================================
-	public static final Environment ENV = Environment.DEV;
+	public static Environment ENV = Environment.DEV;
 	
 	
 	//================================================================
@@ -122,24 +122,32 @@ public class TestGlobals {
     	
     	//------------------------------
     	// JDBC DB Reporter
-    	Gatlytron.addReporter(
-    			new GatlytronReporterDatabaseJDBC("org.h2.Driver"
-    					, "jdbc:h2:tcp://localhost:8889/./datastore/h2database;MODE=MYSQL;IGNORECASE=TRUE"
-    					, DB_TABLE_PREFIX
-    					, "sa"
-    					, "sa") {
-					
-					@Override
-					public GatlytronDBInterface getGatlytronDB(DBInterface dbInterface, String tableNamePrefix) {
-						return new GatlytronDBInterface(dbInterface, tableNamePrefix);
-					}
-				}
-    		);
+//    	Gatlytron.addReporter(
+//    			new GatlytronReporterDatabaseJDBC("org.h2.Driver"
+//    					, "jdbc:h2:tcp://localhost:8889/./datastore/h2database;MODE=MYSQL;IGNORECASE=TRUE"
+//    					, DB_TABLE_PREFIX
+//    					, "sa"
+//    					, "sa") {
+//					
+//					@Override
+//					public GatlytronDBInterface getGatlytronDB(DBInterface dbInterface, String tableNamePrefix) {
+//						return new GatlytronDBInterface(dbInterface, tableNamePrefix);
+//					}
+//				}
+//    		);
     	
     	//------------------------------
     	// Start Gatlytron
     	Gatlytron.start(REPORT_INTERVAL);
 
+	}
+	
+	/****************************************************************************
+	 * Set the environment, this should only be called during the setup of a 
+	 * simulation and not after it started.
+	 ****************************************************************************/
+	public static void setEnvironment(Environment env) {
+		ENV = env;
 	}
 	
 	/****************************************************************************
