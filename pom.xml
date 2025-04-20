@@ -184,10 +184,11 @@
 								
 								<argument>-classpath</argument>
 					            <classpath />
+					            
+					            <argument>-Dgatling.conf.file=${gatling.conf.file}</argument>
+					            
 					            <argument>io.gatling.app.Gatling</argument>
 					            
-					            <argument>-Dgatling.conf.file</argument>
-					            <argument>${gatling.conf.file}</argument>
 					            
 					            <argument>--results-folder</argument>
 					            <argument>${project.build.directory}/gatling-results</argument>
