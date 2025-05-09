@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import com.performetriks.gatlytron.base.Gatlytron;
 import com.performetriks.gatlytron.reporting.GatlytronReporterCSV;
 import com.performetriks.gatlytron.reporting.GatlytronReporterDatabasePostGres;
-import com.performetriks.gatlytron.reporting.GatlytronReporterEMP;
 import com.performetriks.gatlytron.reporting.GatlytronReporterJson;
+import com.performetriks.gatlytron.reporting.GatlytronReporterOTel;
 import com.performetriks.gatlytron.reporting.GatlytronReporterSysoutCSV;
 
 import ch.qos.logback.classic.Level;
@@ -106,12 +106,12 @@ public class TestGlobals {
     	
     	//------------------------------
     	// EMP Reporter
-    	Gatlytron.addReporter(
-    			new GatlytronReporterEMP(
-    					"http://localhost:8888"
-    					,"gatlytron-test-token-MSGIUzrLyUsOypYOkekVgmlfjMpLbRCA"
-    				)
-    			);
+//    	Gatlytron.addReporter(
+//    			new GatlytronReporterEMP(
+//    					"http://localhost:8888"
+//    					,"gatlytron-test-token-MSGIUzrLyUsOypYOkekVgmlfjMpLbRCA"
+//    				)
+//    			);
     	
     	//------------------------------
     	// JDBC DB Reporter
@@ -128,6 +128,13 @@ public class TestGlobals {
 //					}
 //				}
 //    		);
+    	
+    	//------------------------------
+    	// OTel Reporter
+    	Gatlytron.addReporter(
+    			new GatlytronReporterOTel("http://localhost:9090/api/v1/otlp/v1/metrics", REPORT_INTERVAL)
+    		);
+    	
     	
     	//------------------------------
     	// Start Gatlytron

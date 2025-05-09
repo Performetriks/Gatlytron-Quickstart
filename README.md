@@ -280,6 +280,46 @@ Now you should be able to connect to EMP and report metrics with Gatlytron by us
 
 ```
 
+### Reporting to OpenTelemetry (OTel)
+
+You can send your data to an Open Telemetry endpoint using the reporter GatlytronReporterOTel.
+Please consider the following points:
+
+* **OTel Naming Conventions:** OTel only allow metric names with alphanumeric, ".", "_", "-", "/" 
+	and the name must start with a alphanumeric. Any other characters will be replaced with "_" by 
+	Gatlytron to avoid errors. Gatlytron will add an "x" as a prefix in case the name does 
+	not start with an alphanumeric
+	
+* **More Naming Conventions:** The software you are sending the data to might also enforce further 
+	naming conventions. For Example Prometheus will make "x_54312641779-1cbeb654f0_o.jpg_w_300" 
+	into "x_cbeb_f_o_jpg_w_min_milliseconds" because it doesn't like numbers or dots in its metric names.
+	
+* **Attributes:** Because the metrics names can be messed up, various attributes have been added, 
+	including the metric name, to make filtering for you more convenient. 
+
+Following is a simple example how to add an OTel reporter in your test configuration.
+The url given below send the data to a locally running prometheus instance. If you want to try this too,
+you will need to start prometheus with OTLP enabled like `prometheus.exe --web.enable-otlp-receiver`.
+
+
+```java
+{ 	
+    	//------------------------------
+    	// OTel Reporter
+    	Gatlytron.addReporter(
+    			new GatlytronReporterOTel("http://localhost:9090/api/v1/otlp/v1/metrics", REPORT_INTERVAL)
+    		);
+    	
+}
+
+```
+
+After running a test with above reporter, you should be able to filter the metrics, here a Prometheus example query using various attributes:
+
+```
+{ simulation="SimulationCheckDebug", scenario="Website", type="REQ", status="ok"} 
+```
+
 ## Setup EMP Dashboards
 Gatlytron provides templates for EMP dashboards. 
 If you want to use EMP to show your Gatling simulation data, here is how:
