@@ -291,7 +291,7 @@ Please consider the following points:
 	not start with an alphanumeric
 	
 * **More Naming Conventions:** The software you are sending the data to might also enforce further 
-	naming conventions. For Example Prometheus will make "x_54312641779-1cbeb654f0_o.jpg_w_300" 
+	naming conventions. For Example Prometheus will remove dots.
 	into "x_cbeb_f_o_jpg_w_min_milliseconds" because it doesn't like numbers or dots in its metric names.
 	
 * **Attributes:** Because the metrics names can be messed up, various attributes have been added, 
