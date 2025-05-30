@@ -68,6 +68,20 @@ public class TestGlobals {
 
 
 	/****************************************************************************
+	 * !!! IMPORTANT NOTE !!!
+	 * Simulations should be independent from the environment to avoid confusion
+	 * and be able to configure the used environment in a single place (in this
+	 * TestGlobals.ENV). This method is used for simulations that are triggered
+	 * by a pipeline like Jenkins, where you would configure the environment 
+	 * with a parameter.
+	 *  
+	 ****************************************************************************/
+	public static void commonInitialization(Environment env) {
+		ENV = env;
+		commonInitialization();
+	}
+	
+	/****************************************************************************
 	 * 
 	 ****************************************************************************/
 	public static void commonInitialization() {
@@ -131,10 +145,9 @@ public class TestGlobals {
     	
     	//------------------------------
     	// OTel Reporter
-    	Gatlytron.addReporter(
-    			new GatlytronReporterOTel("http://localhost:9090/api/v1/otlp/v1/metrics", REPORT_INTERVAL)
-    		);
-    	
+//    	Gatlytron.addReporter(
+//    			new GatlytronReporterOTel("http://localhost:9090/api/v1/otlp/v1/metrics", REPORT_INTERVAL)
+//    		);
     	
     	//------------------------------
     	// Start Gatlytron
@@ -142,20 +155,13 @@ public class TestGlobals {
 
 	}
 	
-	/****************************************************************************
-	 * Set the environment, this should only be called during the setup of a 
-	 * simulation and not after it started.
-	 ****************************************************************************/
-	public static void setEnvironment(Environment env) {
-		ENV = env;
-	}
 	
 	/****************************************************************************
 	 * 
 	 ****************************************************************************/
 	public static void commonTermination() {
 		try {
-		Gatlytron.terminate();
+			Gatlytron.terminate();
 		}catch(Throwable e){
 			logger.warn("Exception occured during termination: "+e.getMessage(), e);
 		}

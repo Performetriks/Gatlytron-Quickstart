@@ -47,8 +47,7 @@ public class SimulationJenkins extends Simulation {
     	//--------------------------------------
     	// Setup Test
     	Gatlytron.setSimulationName(this.getClass().getSimpleName());
-        TestGlobals.setEnvironment(enviroment);
-        TestGlobals.commonInitialization();
+        TestGlobals.commonInitialization(enviroment);
 
         Gatlytron.setLogLevelRoot(logLevel);
         Gatlytron.setLogLevel(logLevel, "io.gatling.http.engine.response"); // logging level for requests and response

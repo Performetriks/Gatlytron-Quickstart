@@ -12,7 +12,7 @@ import io.gatling.javaapi.core.Simulation;
  
 public class SimulationCheckDebug extends Simulation {
  
-    private static final Duration TEST_DURATION = Duration.ofSeconds(600);
+    private static final Duration TEST_DURATION = Duration.ofSeconds(60);
 
     {
     	

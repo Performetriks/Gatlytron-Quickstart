@@ -7,7 +7,7 @@
 
 	<groupId>com.performetriks</groupId>
 	<artifactId>gatlytron-quickstart</artifactId>
-	<version>2.3.0</version>
+	<version>2.4.0</version>
 
 	<packaging>jar</packaging>
 	
@@ -20,7 +20,7 @@
 		<maven.compiler.release>11</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
-		<gatlytron.version>2.3.0</gatlytron.version>
+		<gatlytron.version>2.4.0</gatlytron.version>
 		
 		<gatling.version>3.13.1</gatling.version>
 		<gatling-maven-plugin.version>4.11.0</gatling-maven-plugin.version>
