@@ -6,7 +6,7 @@ import static io.gatling.javaapi.http.HttpDsl.http;
 import com.performetriks.gatlytron.base.GatlytronScenario;
 import com.performetriks.gatlytron.test.settings.TestGlobals;
  
-public class SampleScenarioTwo extends GatlytronScenario {
+public class SampleScenario2 extends GatlytronScenario {
   
     public static final String SCENARIO_NAME = "Website";
     public static final String URL = TestGlobals.ENV.url + "";
@@ -14,7 +14,7 @@ public class SampleScenarioTwo extends GatlytronScenario {
     /***************************************************************************
      *
      ***************************************************************************/
-    public SampleScenarioTwo() {
+    public SampleScenario2() {
         super(SCENARIO_NAME);
       
         this

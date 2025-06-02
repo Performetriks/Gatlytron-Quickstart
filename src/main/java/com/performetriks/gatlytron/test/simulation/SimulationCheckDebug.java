@@ -3,8 +3,9 @@ package com.performetriks.gatlytron.test.simulation;
 import java.time.Duration;
 
 import com.performetriks.gatlytron.base.Gatlytron;
-import com.performetriks.gatlytron.test.scenario.SampleScenario;
-import com.performetriks.gatlytron.test.scenario.SampleScenarioTwo;
+import com.performetriks.gatlytron.test.scenario.SampleScenario1;
+import com.performetriks.gatlytron.test.scenario.SampleScenario2;
+import com.performetriks.gatlytron.test.scenario.SampleScenario3CustomReporting;
 import com.performetriks.gatlytron.test.settings.TestGlobals;
 
 import io.gatling.javaapi.core.Simulation;
@@ -28,8 +29,9 @@ public class SimulationCheckDebug extends Simulation {
         //======================================================================
        
     	setUp(
-                new SampleScenario().buildStandardLoad(10, 600, 0, 2)
-                , new SampleScenarioTwo().buildStandardLoad(10, 600, 0, 2)
+                new SampleScenario1().buildStandardLoad(10, 600, 0, 2)
+                , new SampleScenario2().buildStandardLoad(10, 600, 0, 2)
+                , new SampleScenario3CustomReporting().buildStandardLoad(10, 600, 0, 2)
            ).protocols(TestGlobals.getProtocol())
             .maxDuration(TEST_DURATION)
            ;

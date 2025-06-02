@@ -10,7 +10,7 @@ import java.util.Map;
 import com.performetriks.gatlytron.base.GatlytronScenario;
 import com.performetriks.gatlytron.test.settings.TestGlobals;
  
-public class SampleScenario extends GatlytronScenario {
+public class SampleScenario1 extends GatlytronScenario {
   
     public static final String SCENARIO_NAME = "API.callInterface";
     public static final String URL_API = TestGlobals.ENV.url + "";
@@ -18,7 +18,7 @@ public class SampleScenario extends GatlytronScenario {
     /***************************************************************************
      *
      ***************************************************************************/
-    public SampleScenario() {
+    public SampleScenario1() {
         super(SCENARIO_NAME);
       
         this

@@ -3,8 +3,8 @@ package com.performetriks.gatlytron.test.simulation;
 import java.time.Duration;
 
 import com.performetriks.gatlytron.base.Gatlytron;
-import com.performetriks.gatlytron.test.scenario.SampleScenario;
-import com.performetriks.gatlytron.test.scenario.SampleScenarioTwo;
+import com.performetriks.gatlytron.test.scenario.SampleScenario1;
+import com.performetriks.gatlytron.test.scenario.SampleScenario2;
 import com.performetriks.gatlytron.test.settings.TestGlobals;
 import com.performetriks.gatlytron.test.settings.TestGlobals.Environment;
 
@@ -55,13 +55,21 @@ public class SimulationJenkins extends Simulation {
     	//--------------------------------------
     	// Setup Simulation
         setUp(
-        	  new SampleScenario()   .buildStandardLoad(percent, 10, 6000, 0, 2)
-            , new SampleScenarioTwo().buildStandardLoad(percent, 10, 600 , 0, 2)
+        	  new SampleScenario1()   .buildStandardLoad(percent, 10, 6000, 0, 2)
+            , new SampleScenario2().buildStandardLoad(percent, 10, 600 , 0, 2)
             
         ).protocols(TestGlobals.getProtocol())
          .maxDuration(TEST_DURATION)
         ;
 
 
+    }
+    
+    /********************************************************************
+     * 
+     *********************************************************************/
+    @Override
+    public void after() {
+      TestGlobals.commonTermination();
     }
 }
