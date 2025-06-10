@@ -25,7 +25,6 @@ public class SimulationLoadAverage extends Simulation {
                new SampleScenario1().buildStandardLoad(20, 6000, 0, 2)
              , new SampleScenario2().buildStandardLoad(10, 3000, 0, 2)
              //, new SampleScenario2().buildScenario(0).injectOpen(...) // Example of a Custom Scenario with 0 pacing
-             //   ).protocols(TestGlobals.getProtocol())
         ).protocols(TestGlobals.getProtocol())
          .maxDuration(TEST_DURATION)
         ;
