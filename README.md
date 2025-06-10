@@ -242,7 +242,7 @@ Gatlytron.addReporter(
 	);
 ```
 
-### Reporting to EMP
+## Reporting to EMP
 Two things you might wanna know about reporting metrics to EMP:
 * The max granularity of data you will have in EMP is 1 minute.
 * EMP will do an age out of the data or housekeeping. EMP will be a good solution if diskspace usage needs to be considered.
@@ -280,7 +280,7 @@ Now you should be able to connect to EMP and report metrics with Gatlytron by us
 
 ```
 
-### Reporting to OpenTelemetry (OTel)
+## Reporting to OpenTelemetry (OTel)
 
 You can send your data to an Open Telemetry endpoint using the reporter GatlytronReporterOTel.
 Please consider the following points:
@@ -319,6 +319,32 @@ After running a test with above reporter, you should be able to filter the metri
 ```
 { simulation="SimulationCheckDebug", scenario="Website", type="REQ", status="ok"} 
 ```
+
+
+## Reporting Custom Metrics
+
+You can define your custom metrics by calling the one of the InjectedDataReceiver.createRecord() functions.
+The metrics will be aggregated by the Gatlytron Statistics Engine and reported to any of the registered reporters as the regular metrics.
+
+```java
+long now = System.currentTimeMillis();
+ 
+InjectedDataReceiver.createRecord(
+					GatlytronRecordType.REQUEST
+					, scenario
+					, null
+					, "myMetric"
+					, now // start time
+					, now // end time
+					, "OK"  // status 'OK' or 'KO'
+					, "000" // custom status code, e.g. HTTP Response Code
+					, "NONE" // message, currently ignored
+					,  valueToReport // the value for the metric
+				); 
+    	
+
+```
+
 
 ## Setup EMP Dashboards
 Gatlytron provides templates for EMP dashboards. 
