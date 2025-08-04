@@ -34,7 +34,7 @@ public class SampleScenario1 extends GatlytronScenario {
 			                        //.headers(getHeader())
 			                        //.check(bodyString().saveAs("responseBody"))
 			                )
-		                , http("testError").get("https://does.not.exist/fails")
+		                , http("testError").get("https://does.not.exist/fails?search=#{searchInput}")
 	            	)
             	)
         );
