@@ -2,8 +2,17 @@ package com.performetriks.gatlytron.test.settings;
 
 import static io.gatling.javaapi.core.CoreDsl.AllowList;
 import static io.gatling.javaapi.core.CoreDsl.DenyList;
+import static io.gatling.javaapi.core.CoreDsl.arrayFeeder;
 import static io.gatling.javaapi.core.CoreDsl.csv;
 import static io.gatling.javaapi.http.HttpDsl.http;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +21,8 @@ import com.performetriks.gatlytron.base.Gatlytron;
 import com.performetriks.gatlytron.reporting.GatlytronReporterCSV;
 import com.performetriks.gatlytron.reporting.GatlytronReporterDatabasePostGres;
 import com.performetriks.gatlytron.reporting.GatlytronReporterJson;
-import com.performetriks.gatlytron.reporting.GatlytronReporterOTel;
 import com.performetriks.gatlytron.reporting.GatlytronReporterSysoutCSV;
+import com.performetriks.gatlytron.utils.GatlytronRandom;
 
 import ch.qos.logback.classic.Level;
 import io.gatling.javaapi.core.FeederBuilder;
@@ -61,11 +70,50 @@ public class TestGlobals {
 	public static final int REPORT_INTERVAL = 15;
 	
 	//================================================================
-	// DATA FEEDER
+	// DATA FEEDERS
 	//================================================================
 	public static FeederBuilder.Batchable<String> dataFeeder = csv("testdata_"+ENV.name()+".csv").circular();
 	public static FeederBuilder.Batchable<String> getDataFeeder() { return dataFeeder; }
 
+	public static FeederBuilder<Object> customFeeder;
+	public static FeederBuilder<Object> getCustomFeeder() { return customFeeder; }
+
+	static {
+		//---------------------------------------------
+		// example on how to make a Custom Feeder
+		// with random generated data.
+		
+		long minus18years = Instant.now().minus(18*365, ChronoUnit.DAYS).toEpochMilli(); // method does not support the use of ChronoUnit.DAYS
+		long minus110years = Instant.now().minus(110*365, ChronoUnit.DAYS).toEpochMilli();
+		
+		List<Map<String, Object>> customData = Stream.generate(() -> Map.of(
+				      "firstname", 	GatlytronRandom.firstnameOfGod()
+					, "lastname", 	GatlytronRandom.lastnameSweden()
+					, "address", 	GatlytronRandom.street() + " " + GatlytronRandom.integer(1, 300)
+					, "city", 		GatlytronRandom.capitalCity()
+					, "country", 	GatlytronRandom.country()
+					, "phone", 		GatlytronRandom.phoneNumber()
+					, "email", 		(
+										GatlytronRandom.colorName()
+										+ "." + GatlytronRandom.fruitName()
+										+ "@" + GatlytronRandom.mythicalLocation().replace(" ", "-")
+										+ GatlytronRandom.fromStrings(".com", ".gov", ".us", ".uk", ".ch", ".me")
+									).toLowerCase()
+					, "birthday", GatlytronRandom.dateString(minus110years, minus18years, "YYYY-MM-dd")
+					, "description", GatlytronRandom.loremIpsum( GatlytronRandom.integer(42, 2048) )
+					, "status", GatlytronRandom.fromStrings("active", "inactive", "blocked", "banned")
+				)
+			)
+			.map(HashMap<String, Object>::new) 
+			.limit(100)
+			.collect(Collectors.toList())
+			;
+		
+
+		@SuppressWarnings("unchecked")
+		Map<String, Object>[] mappedData = (Map<String, Object>[])customData.toArray(new Map[0]);
+		customFeeder = arrayFeeder(mappedData).circular();
+	}
 
 	/****************************************************************************
 	 * !!! IMPORTANT NOTE !!!
@@ -89,7 +137,7 @@ public class TestGlobals {
 		//------------------------------
     	// Gatlytron Configuration
 		Gatlytron.setDebug(false);
-		Gatlytron.setLogLevelRoot(Level.INFO);
+		Gatlytron.setLogLevelRoot(Level.DEBUG);
 		Gatlytron.setLogLevel(Level.DEBUG, "com.performetriks.gatlytron");
 		
 		Gatlytron.setRawDataToSysout(false);

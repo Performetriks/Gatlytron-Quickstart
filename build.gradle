@@ -4,7 +4,7 @@
 buildscript {
     ext {
     	versionGatling = '3.13.1'
-    	versionGatlytron = '2.0.0'
+    	versionGatlytron = '2.4.8'
     }
 }
 //========================================================
