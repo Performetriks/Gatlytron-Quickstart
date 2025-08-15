@@ -98,9 +98,10 @@ The fields available in the reported data are as follows:
 * **scenario:** Name of the scenario.
 * **metric:** The name of the metric.
 * **code:** The response code of the request, will be 000 if unknown, for example in case of connection errors.
+* **granularity:** The number of seconds that the values are aggregated for.
 
-* **ok_count, ok_min, ok_max, ok_mean, ok_stdev, ok_p50, ok_p75, ok_p95, ok_p99:** Fields that countain the metrics for request in status "ok".
-* **ko_count, ko_min, ko_max, ko_mean, ko_stdev, ko_p50, ko_p75, ko_p95, ko_p99:** Fields that countain the metrics for request in status "ko".
+* **ok_count, ok_min, ok_max, ok_mean, ok_stdev, ok_p50, ok_p75, ok_p95, ok_p99:** Fields that contain the metrics for request in status "ok".
+* **ko_count, ko_min, ko_max, ko_mean, ko_stdev, ko_p50, ko_p75, ko_p95, ko_p99:** Fields that contain the metrics for request in status "ko".
 
 Here is a JSON example of three records. the first two are user statistic records, the next two are request records:
 
@@ -240,6 +241,26 @@ Gatlytron.addReporter(
 			}
 		}
 	);
+```
+
+### Age Out of Statistics
+You can configure that statistics are aged-out(aggregated by reducing the granularity) to reduce the size of the database.
+
+``` java
+//------------------------------
+// Set Age Out
+// Note: must be set before Constructors of DB Reporters are called
+Gatlytron.setAgeOut(true);
+
+// Optional: Configure the age out, below code shows you the defaoult values
+Gatlytron.setAgeOutConfig(
+			new GatlytronAgeOutConfig()
+				.keep1MinFor( Duration.ofDays(90) )		
+				.keep5MinFor( Duration.ofDays(180) )
+				.keep10MinFor( Duration.ofDays(365) )
+				.keep15MinFor( Duration.ofDays(365 * 3) )
+				.keep60MinFor( Duration.ofDays(365 * 20) )
+		);
 ```
 
 ## Reporting to EMP

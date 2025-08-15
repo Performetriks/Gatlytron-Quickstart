@@ -22,7 +22,7 @@
 		
 		<gatlytron.version>2.4.8</gatlytron.version>
 		
-		<gatling.version>3.13.1</gatling.version>
+		<gatling.version>3.13.5</gatling.version>
 		<gatling-maven-plugin.version>4.11.0</gatling-maven-plugin.version>
 
 

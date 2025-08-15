@@ -6,6 +6,7 @@ import static io.gatling.javaapi.core.CoreDsl.arrayFeeder;
 import static io.gatling.javaapi.core.CoreDsl.csv;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -18,10 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.performetriks.gatlytron.base.Gatlytron;
+import com.performetriks.gatlytron.database.GatlytronAgeOutConfig;
 import com.performetriks.gatlytron.reporting.GatlytronReporterCSV;
 import com.performetriks.gatlytron.reporting.GatlytronReporterDatabasePostGres;
 import com.performetriks.gatlytron.reporting.GatlytronReporterJson;
 import com.performetriks.gatlytron.reporting.GatlytronReporterSysoutCSV;
+import com.performetriks.gatlytron.stats.GatlytronRecordStats;
 import com.performetriks.gatlytron.utils.GatlytronRandom;
 
 import ch.qos.logback.classic.Level;
@@ -137,7 +140,7 @@ public class TestGlobals {
 		//------------------------------
     	// Gatlytron Configuration
 		Gatlytron.setDebug(false);
-		Gatlytron.setLogLevelRoot(Level.DEBUG);
+		Gatlytron.setLogLevelRoot(Level.INFO);
 		Gatlytron.setLogLevel(Level.DEBUG, "com.performetriks.gatlytron");
 		
 		Gatlytron.setRawDataToSysout(false);
@@ -152,6 +155,21 @@ public class TestGlobals {
     	// Sysout Reporter
     	//Gatlytron.addReporter(new GatlytronReporterSysoutJson());
     	Gatlytron.addReporter(new GatlytronReporterSysoutCSV(";"));
+    	
+    	//------------------------------
+    	// Set Age Out
+    	// Note: must be set before Constructors of DB Reporters are called
+    	Gatlytron.setAgeOut(true);
+    	
+    	// Optional: Configure the age out, below code shows you the defaoult values
+//    	Gatlytron.setAgeOutConfig(
+//    				new GatlytronAgeOutConfig()
+//    					.keep1MinFor( Duration.ofDays(90) )		
+//    					.keep5MinFor( Duration.ofDays(180) )
+//    					.keep10MinFor( Duration.ofDays(365) )
+//    					.keep15MinFor( Duration.ofDays(365 * 3) )
+//    					.keep60MinFor( Duration.ofDays(365 * 20) )
+//    			);
     	
     	//------------------------------
     	// PostGres DB Reporter
