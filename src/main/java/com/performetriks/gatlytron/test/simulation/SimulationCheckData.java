@@ -18,7 +18,8 @@ public class SimulationCheckData extends Simulation {
         // Runs every script once, useful to check if all the scripts are working.
         //======================================================================
         setUp(
-            new SampleScenario4Datacheck().buildDatacheck()
+              new SampleScenario4Datacheck().buildDatacheck()
+            //, new SampleScenario4Datacheck().buildRepeat( TestGlobals.dataFeeder.recordsCount() )
         ).protocols(TestGlobals.getProtocol())
         ;
   }
