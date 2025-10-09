@@ -12,19 +12,19 @@ Before you try Gatlytron and find out it doesn't work for your case, here some k
 * The simulation name is not auto detected and has to be set manually using `Gatlytron.setSimulationName(this.getClass().getSimpleName());`. This name will be used for Gatlytron reports and can be customized. It will not be used for the Gatling standard reports(they will still use the class name).
 
 # Troubleshooting
-**Data is not reported: **
+**Data is not reported:**
 * Tests might be executed with `mvn gatling:test`, what is incorrect. Use `mvn verify` instead.
 * Firewall might not be open, check logs for errors
 * Code that registers reporters might be skipped, check that it is executed.
 * Make sure Gatlytron.start(reportInveralSeconds) is called to start the reporting.
 
-**JVM Arguments are not passed to program: **
+**JVM Arguments are not passed to program:**
 * Make sure to also forward them in the pom.xml in the exec-maven-plugin section.
 
-**Reporter File on disk is not updated: **
+**Reporter File on disk is not updated:**
 * Make sure the file is not opened in a program that prevents the file from being written, check logs for errors.
 
-**Performance impact in load testing machine too hight: **
+**Performance impact in load testing machine too high:**
 * Reduce the log levels to reduce amount of logs
 * Reduce number of reporters
 * Reduce reporting interval
