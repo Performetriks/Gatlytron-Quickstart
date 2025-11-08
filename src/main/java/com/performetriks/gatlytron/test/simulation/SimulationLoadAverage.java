@@ -12,7 +12,7 @@ import io.gatling.javaapi.core.Simulation;
  
 public class SimulationLoadAverage extends Simulation {
  
-    private static final Duration TEST_DURATION = Duration.ofMinutes(15);
+    private static final Duration TEST_DURATION = Duration.ofMinutes(5);
  
     {
     	Gatlytron.setSimulationName(this.getClass().getSimpleName());
