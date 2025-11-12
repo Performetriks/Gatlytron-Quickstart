@@ -29,7 +29,7 @@
 		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 		<maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
-		<maven-exec.version>1.2.1</maven-exec.version>
+		<maven-exec.version>3.6.2</maven-exec.version>
 		
 		<final-jar-name>${project.artifactId}-${project.version}.jar</final-jar-name>
 
@@ -178,6 +178,7 @@
 						<phase>integration-test</phase>
 						<configuration>
 							<executable>java</executable>
+
 							<arguments>
 								
 								<argument>-javaagent:".\target\gatlytron-${gatlytron.version}.jar"</argument>
@@ -200,6 +201,11 @@
 						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<systemProperties>
+				    	<projectProperties /> <!-- automatically propagate all -D argument values -->
+				    </systemProperties>
+				</configuration>
 			</plugin>
 			
     
