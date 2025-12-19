@@ -8,11 +8,11 @@ import com.performetriks.gatlytron.test.scenario.SampleScenario2;
 import com.performetriks.gatlytron.test.settings.TestGlobals;
 
 import io.gatling.javaapi.core.Simulation;
- 
+import static io.gatling.javaapi.core.CoreDsl.*;
  
 public class SimulationLoadAverage extends Simulation {
  
-    private static final Duration TEST_DURATION = Duration.ofMinutes(5);
+    private static final Duration TEST_DURATION = Duration.ofMinutes(3);
  
     {
     	Gatlytron.setSimulationName(this.getClass().getSimpleName());
@@ -27,6 +27,11 @@ public class SimulationLoadAverage extends Simulation {
              //, new SampleScenario2().buildScenario(0).injectOpen(...) // Example of a Custom Scenario with 0 pacing
         ).protocols(TestGlobals.getProtocol())
          .maxDuration(TEST_DURATION)
+         .assertions(
+		      global().responseTime().max().lt(50)
+		    , forAll().successfulRequests().percent().gt(95.0)
+		    , details("My Test").responseTime().mean().lt(5)
+		  )
          ;
 	}
     
